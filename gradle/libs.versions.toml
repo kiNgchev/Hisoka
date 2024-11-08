@@ -1,0 +1,51 @@
+[versions]
+kotlin = "2.0.0"
+kotlinx-coroutines = "1.9.0"
+kotlinx-serialization = "1.7.3"
+exposed = "0.56.0"
+kord = "0.15.0"
+slf4j = "2.0.16"
+
+[libraries]
+# kotlin
+kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+
+# exposed
+exposed-core = { group = "org.jetbrains.exposed", name = "exposed-core", version.ref = "exposed" }
+exposed-dao = { group = "org.jetbrains.exposed", name = "exposed-dao", version.ref = "exposed" }
+
+# kord
+kord-core = { group = "dev.kord", name = "kord-core", version.ref = "kord" }
+kord-common = { group = "dev.kord", name = "kord-common", version.ref = "kord" }
+kord-rest = { group = "dev.kord", name = "kord-rest", version.ref = "kord" }
+kord-gateway = { group = "dev.kord", name = "kord-gateway", version.ref = "kord" }
+
+# logging 
+slf4j-api = { group = "org.slf4j", name = "slf4j-api", version.ref = "slf4j" }
+slf4j-log4j12 = { group = "org.slf4j", name = "slf4j-log4j12", version.ref = "slf4j"}
+
+# plugins dependency
+kotlin-jvm = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-serialization = { id ="org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+
+[bundles]
+plugins = [
+    "kotlin-jvm",
+    "kotlin-serialization"
+]
+exposed = [
+    "exposed-core",
+    "exposed-dao"
+]
+kord = [
+    "kord-core",
+    "kord-common",
+    "kord-rest",
+    "kord-gateway"
+]
