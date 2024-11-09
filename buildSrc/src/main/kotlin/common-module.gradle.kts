@@ -14,7 +14,7 @@ repositories {
 dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.slf4j.api)
-    implementation(libs.slf4j.log4j12)
+    implementation(libs.logback.core)
 }
 
 kotlin {

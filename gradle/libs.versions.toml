@@ -5,6 +5,7 @@ kotlinx-serialization = "1.7.3"
 exposed = "0.56.0"
 kord = "0.15.0"
 slf4j = "2.0.16"
+logback = "1.5.12"
 
 [libraries]
 # kotlin
@@ -24,7 +25,7 @@ kord-gateway = { group = "dev.kord", name = "kord-gateway", version.ref = "kord"
 
 # logging 
 slf4j-api = { group = "org.slf4j", name = "slf4j-api", version.ref = "slf4j" }
-slf4j-log4j12 = { group = "org.slf4j", name = "slf4j-log4j12", version.ref = "slf4j"}
+logback-core = { group = "ch.qos.logback", name = "logback-classic", version.ref = "logback"}
 
 # plugins dependency
 kotlin-jvm = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
