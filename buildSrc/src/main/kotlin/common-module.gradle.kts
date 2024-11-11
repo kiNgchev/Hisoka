@@ -15,9 +15,14 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.slf4j.api)
     implementation(libs.logback.core)
+    testImplementation(kotlin("test"))
 }
 
 kotlin {
+    tasks.test {
+        useJUnitPlatform()
+    }
+
     explicitApi()
 
     jvmToolchain(21)
