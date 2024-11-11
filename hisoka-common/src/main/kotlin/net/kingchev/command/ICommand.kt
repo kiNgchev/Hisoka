@@ -17,6 +17,8 @@ public sealed interface ICommand {
 
     public fun build(): GlobalChatInputCreateBuilder.() -> Unit
 
+    public suspend fun isValid(event: GuildChatInputCommandInteractionCreateEvent): Boolean
+
     public suspend fun execute(event: GuildChatInputCommandInteractionCreateEvent)
 
     public companion object {
