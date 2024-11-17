@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    name: 'Build for test'
+    name: 'Call test task'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -18,4 +18,4 @@ jobs:
       - name: 'Set up Gradle'
         uses: gradle/actions/setup-gradle@v4
       - name: 'Build with Gradle'
-        run: ./gradlew --stacktrace --info build
+        run: ./gradlew --stacktrace --info test
