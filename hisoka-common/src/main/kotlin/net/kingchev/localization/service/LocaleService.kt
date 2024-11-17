@@ -9,8 +9,6 @@ public object LocaleService {
 
     init {
         createBundle("common")
-        // test bundle, only for test
-        createBundle("test")
     }
 
     public fun getMessage(key: String, locale: String): String {
@@ -29,7 +27,7 @@ public object LocaleService {
         return getMessage(key, locale).format(*objects)
     }
 
-    private fun createBundle(baseName: String) {
+    public fun createBundle(baseName: String) {
         for (lang in Language.entries) {
             val bundle = Bundle(baseName, lang)
             bundles[lang.language]?.plus(bundle) ?:
