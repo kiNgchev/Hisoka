@@ -1,15 +1,11 @@
 package net.kingchev.localization.service
 
-import io.ktor.utils.io.core.*
 import net.kingchev.localization.model.Bundle
 import net.kingchev.localization.model.Language
-import java.nio.charset.Charset
 import java.util.*
-import kotlin.text.String
-import kotlin.text.toByteArray
 
 public object LocaleService {
-    private val bundles: MutableMap<String, MutableList<Bundle>> = mutableMapOf()
+    private val bundles: MutableMap<String, Array<Bundle>> = mutableMapOf()
 
     init {
         createBundle("common")
@@ -36,8 +32,8 @@ public object LocaleService {
     private fun createBundle(baseName: String) {
         for (lang in Language.entries) {
             val bundle = Bundle(baseName, lang)
-            bundles[lang.language]?.add(bundle) ?:
-            bundles.set(lang.language, mutableListOf(bundle))
+            bundles[lang.language]?.plus(bundle) ?:
+            bundles.set(lang.language, arrayOf(bundle))
         }
     }
 }
