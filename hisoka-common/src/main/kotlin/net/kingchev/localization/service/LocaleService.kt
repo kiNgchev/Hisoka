@@ -30,8 +30,9 @@ public object LocaleService {
     public fun createBundle(baseName: String) {
         for (lang in Language.entries) {
             val bundle = Bundle(baseName, lang)
-            bundles[lang.language]?.plus(bundle) ?:
-            bundles.set(lang.language, arrayOf(bundle))
+            val array = bundles[lang.language]
+            if (array == null) bundles[lang.language] = arrayOf(bundle)
+            else bundles[lang.language] = array.plusElement(bundle)
         }
     }
 }
