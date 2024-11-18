@@ -40,14 +40,14 @@ public object ReflectionUtils {
                     val add: KClass<*> = Class.forName("$packageName.${classFile.substring(0, classFile.length - 6)}").kotlin
                     if (block.invoke(add)) result.add(add)
                 } catch (_: NoClassDefFoundError) {
-                    logger.error("We have found class [$classFile], and couldn't load it.");
+                    logger.error("We have found class [$classFile], and couldn't load it.")
                 } catch (_: ClassNotFoundException) {
-                    logger.error("We could not find class [$classFile]");
+                    logger.error("We could not find class [$classFile]")
                 }
             }
         }
 
-        return result;
+        return result
     }
 
     public fun getSubclasses(packageName: String = BASE_APP_PACKAGE, klass: KClass<*>): List<KClass<*>> {
