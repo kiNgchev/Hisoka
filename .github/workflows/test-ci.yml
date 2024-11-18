@@ -6,6 +6,8 @@ on:
 
 jobs:
   build:
+    env:
+      BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
     name: 'Call test task'
     runs-on: ubuntu-latest
     steps:
