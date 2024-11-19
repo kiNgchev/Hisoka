@@ -2,15 +2,16 @@ package net.kingchev.service
 
 import net.kingchev.extensions.toIntOrDef
 import net.kingchev.model.HisokaConfig
+import net.kingchev.structure.Initializable
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-public object ConfigService {
+public object ConfigService : Initializable {
     private val logger: Logger = LoggerFactory.getLogger(ConfigService::class.java)
 
-    public val config: HisokaConfig
+    public var config: HisokaConfig? = null
 
-    init {
+    public override fun initialize() {
         logger.info("Config initialization started")
 
         val token = System.getenv("BOT_TOKEN")
