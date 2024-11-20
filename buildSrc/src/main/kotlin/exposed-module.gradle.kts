@@ -13,4 +13,5 @@ repositories {
 
 dependencies {
     implementation(libs.bundles.exposed)
+    implementation(libs.postgresql)
 }

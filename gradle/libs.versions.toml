@@ -3,6 +3,7 @@ kotlin = "2.0.0"
 kotlinx-coroutines = "1.9.0"
 kotlinx-serialization = "1.7.3"
 exposed = "0.56.0"
+postgres = "42.7.4"
 kord = "0.15.0"
 slf4j = "2.0.16"
 logback = "1.5.12"
@@ -16,6 +17,7 @@ kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 # exposed
 exposed-core = { group = "org.jetbrains.exposed", name = "exposed-core", version.ref = "exposed" }
 exposed-dao = { group = "org.jetbrains.exposed", name = "exposed-dao", version.ref = "exposed" }
+postgresql = { group = "org.postgresql", name = "postgresql", version.ref = "postgres"}
 
 # kord
 kord-core = { group = "dev.kord", name = "kord-core", version.ref = "kord" }
