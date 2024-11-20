@@ -8,6 +8,7 @@ jobs:
   build:
     env:
       BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+      test: test
     name: 'Call test task'
     runs-on: ubuntu-latest
     steps:
