@@ -1,31 +1,31 @@
 package net.kingchev.extensions
 
-public fun String.toByteOrDef(definition: Byte = 0): Byte {
+public fun Any?.toByteOrDef(definition: Byte = 0): Byte {
     return try {
-        java.lang.Byte.parseByte(this)
+        java.lang.Byte.parseByte(this.toString())
     } catch (_: NumberFormatException) { definition }
 }
 
-public fun String.toShortOrDef(definition: Short = 0): Short {
+public fun Any?.toShortOrDef(definition: Short = 0): Short {
     return try {
-        java.lang.Short.parseShort(this)
+        java.lang.Short.parseShort(this.toString())
     } catch (_: NumberFormatException) { definition }
 }
 
-public fun String.toIntOrDef(definition: Int = 0): Int {
+public fun Any?.toIntOrDef(definition: Int = 0): Int {
     return try {
-        java.lang.Integer.parseInt(this)
+        java.lang.Integer.parseInt(this.toString())
     } catch (_: NumberFormatException) { definition }
 }
 
-public fun String.toLongOrDef(definition: Long = 0): Long {
+public fun Any?.toLongOrDef(definition: Long = 0): Long {
     return try {
-        java.lang.Long.parseLong(this)
+        java.lang.Long.parseLong(this.toString())
     } catch (_: NumberFormatException) { definition }
 }
 
-public fun String.toFloatOrDef(definition: Float = 0f): Float {
+public fun Any?.toFloatOrDef(definition: Float = 0f): Float {
     return try {
-        java.lang.Float.parseFloat(this)
+        java.lang.Float.parseFloat(this.toString())
     } catch (_: NumberFormatException) { definition }
 }
