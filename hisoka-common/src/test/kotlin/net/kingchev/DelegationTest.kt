@@ -1,7 +1,7 @@
 package net.kingchev
 
-import net.kingchev.structure.delegetion.Environment
-import net.kingchev.structure.delegetion.Property
+import net.kingchev.structure.delegation.Environment
+import net.kingchev.structure.delegation.Property
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
