@@ -3,8 +3,8 @@ package net.kingchev.service
 import net.kingchev.extensions.toIntOrDef
 import net.kingchev.model.HisokaConfig
 import net.kingchev.structure.Initializable
-import net.kingchev.structure.delegetion.Environment
-import net.kingchev.structure.delegetion.Property
+import net.kingchev.structure.delegation.Environment
+import net.kingchev.structure.delegation.Property
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
