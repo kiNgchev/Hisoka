@@ -14,8 +14,8 @@ public const val BASE_APP_PACKAGE: String = "net.kingchev"
 public object ReflectionUtils {
     public val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
-    public fun getClass(packageName: String = BASE_APP_PACKAGE, block: (klass: KClass<*>) -> Boolean): List<KClass<*>> {
-        val result = mutableListOf<KClass<*>>()
+    public fun getClass(packageName: String = BASE_APP_PACKAGE, block: (klass: KClass<*>) -> Boolean): HashSet<KClass<*>> {
+        val result = hashSetOf<KClass<*>>()
         val loader = currentThread().contextClassLoader
         val path = packageName.replace(".", "/")
 
@@ -50,7 +50,7 @@ public object ReflectionUtils {
         return result
     }
 
-    public fun getSubclasses(packageName: String = BASE_APP_PACKAGE, klass: KClass<*>): List<KClass<*>> {
+    public fun getSubclasses(packageName: String = BASE_APP_PACKAGE, klass: KClass<*>): HashSet<KClass<*>> {
         return getClass(packageName) { isSuperclassContains(it, klass) }
     }
 
