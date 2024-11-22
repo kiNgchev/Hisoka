@@ -33,7 +33,7 @@ public object DatabaseInitializer : Initializable {
         transaction(connection) {
             SchemaUtils.setSchema(Schema("public"))
             for (schema in schemas) {
-                SchemaUtils.create(schema.objectInstance as Table)
+                SchemaUtils.createMissingTablesAndColumns(schema.objectInstance as Table)
             }
         }
     }
