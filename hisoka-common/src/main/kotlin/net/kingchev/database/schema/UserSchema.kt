@@ -11,5 +11,5 @@ public object UserSchema : Table() {
     public val losses: Column<Long> = long(name = "losses").default(0)
 
     override val tableName: String = "user"
-    override val primaryKey: PrimaryKey = PrimaryKey(id)
+    override val primaryKey: PrimaryKey = PrimaryKey(id, username)
 }
