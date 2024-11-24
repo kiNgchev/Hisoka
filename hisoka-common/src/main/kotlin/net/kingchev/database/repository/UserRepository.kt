@@ -16,12 +16,12 @@ public object UserRepository : Repository<UserSchema, UserModel>(UserSchema) {
 
     init {
         GlobalScope.launch {
-            create(default)
+            if (read(default.id) == null) create(default)
         }
     }
 
     public override suspend fun create(model: UserModel): Unit = query {
-        schema.upsert(schema.id, onUpdateExclude = listOf(schema.balance)) {
+        schema.upsert(schema.id) {
             it[schema.id] = model.id
             it[schema.username] = model.username
             it[schema.balance] = model.balance
