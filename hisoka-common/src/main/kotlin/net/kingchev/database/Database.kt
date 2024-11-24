@@ -22,7 +22,7 @@ public object DatabaseInitializer : Initializable {
     public val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
     override fun initialize() {
-        val schemas = ReflectionUtils.getSubclasses("net.kingchev.database.schema", Table::class)
+        val schemas = ReflectionUtils.getSubclasses<Table>("net.kingchev.database.schema")
         val connection = Exposed.connect(
             url,
             driver,
@@ -33,7 +33,7 @@ public object DatabaseInitializer : Initializable {
         transaction(connection) {
             SchemaUtils.setSchema(Schema("public"))
             for (schema in schemas) {
-                SchemaUtils.createMissingTablesAndColumns(schema.objectInstance as Table)
+                SchemaUtils.createMissingTablesAndColumns(schema.objectInstance ?: throw IllegalStateException("Schema ${schema.qualifiedName} is not object"))
             }
         }
     }

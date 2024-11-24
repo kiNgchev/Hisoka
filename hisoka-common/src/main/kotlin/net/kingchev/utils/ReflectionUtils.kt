@@ -54,6 +54,11 @@ public object ReflectionUtils {
         return getClass(packageName) { isSuperclassContains(it, klass) }
     }
 
+    @Suppress("UNCHECKED_CAST")
+    public inline fun <reified T : Any> getSubclasses(packageName: String = BASE_APP_PACKAGE): HashSet<KClass<T>> {
+        return getClass(packageName) { isSuperclassContains(it, T::class) }.map { it as KClass<T> }.toHashSet()
+    }
+
     public fun isSuperclassContains(klass: KClass<*>, superKlass: KClass<*>): Boolean {
         if (klass.superclasses.contains(superKlass)) return true
         else for (cls in klass.superclasses) {

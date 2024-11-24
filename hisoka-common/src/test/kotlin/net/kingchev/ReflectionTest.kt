@@ -7,7 +7,9 @@ import kotlin.test.assertEquals
 class ReflectionTest {
     @Test
     fun getClassReflectionTest() {
-        assertEquals(ReflectionUtils.getSubclasses(klass = Base::class).toSet(), setOf(Subclass1::class, Subclass2::class, Subclass3::class, Subclass5::class))
+        val actual = setOf(Subclass1::class, Subclass2::class, Subclass3::class, Subclass5::class)
+        assertEquals(ReflectionUtils.getSubclasses<Base>().toSet(), actual)
+        assertEquals(ReflectionUtils.getSubclasses(klass = Base::class).toSet(), actual)
     }
 }
 
