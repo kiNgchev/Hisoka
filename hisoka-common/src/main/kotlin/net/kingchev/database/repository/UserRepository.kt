@@ -11,7 +11,7 @@ import net.kingchev.model.Constants.ID_LONG
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 
-public object UserRepository : Repository<UserSchema>(UserSchema) {
+public object UserRepository : Repository<UserSchema, UserModel>(UserSchema) {
     private val default = UserModel(ID_LONG, "Hisoka Morow#6440", 0, 0, 0)
 
     init {
@@ -33,6 +33,19 @@ public object UserRepository : Repository<UserSchema>(UserSchema) {
     public override suspend fun read(id: Long): UserModel? = query {
         schema.selectAll()
             .where { schema.id eq id }
+            .map { UserModel(
+                it[schema.id],
+                it[schema.username],
+                it[schema.balance],
+                it[schema.wins],
+                it[schema.losses]
+            ) }
+            .singleOrNull()
+    }
+
+    public suspend fun read(username: String): UserModel? = query {
+        schema.selectAll()
+            .where { schema.username eq username }
             .map { UserModel(
                 it[schema.id],
                 it[schema.username],
