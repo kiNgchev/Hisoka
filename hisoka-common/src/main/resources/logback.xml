@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+    <property name = "LOG_PATH" value="logs" />
+
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>%magenta(%d{HH:mm:ss.SSS}) %highlight(%-5level) [%thread] %cyan(%logger{36}) - %highlight(%msg%n)</pattern>
         </encoder>
     </appender>
 
+    <appender name="FILEOUT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %-5level [%thread] %logger{36} - %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/%d{HH_dd.MM.yyyy}.log</fileNamePattern>
+        </rollingPolicy>
+    </appender>
+
     <root level="debug">
         <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILEOUT" />
     </root>
 </configuration>
