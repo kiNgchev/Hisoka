@@ -3,6 +3,8 @@ package net.kingchev.database.service
 import net.kingchev.database.exception.EntryNotFoundException
 import net.kingchev.database.model.UserModel
 import net.kingchev.database.repository.UserRepository
+import net.kingchev.localization.model.Language
+import net.kingchev.localization.model.parse
 import kotlin.jvm.Throws
 
 public object UserService {
@@ -61,8 +63,25 @@ public object UserService {
         repository.update(id, model)
     }
 
-    private suspend fun createUser(id: Long, username: String, balance: Long = 0, wins: Long = 0, losses: Long = 0): UserModel {
-        val model = UserModel(id, username, balance, wins, losses)
+    @Throws(EntryNotFoundException::class)
+    public suspend fun setLocale(id: Long, locale: String) {
+        setLocale(id, parse(locale))
+    }
+
+    @Throws(EntryNotFoundException::class)
+    public suspend fun setLocale(id: Long, locale: Language) {
+        val result = getUser(id)
+        val model = result.copy(locale = locale.language)
+        repository.update(id, model)
+    }
+
+    @Throws(EntryNotFoundException::class)
+    public suspend fun getLocale(id: Long): String {
+        return getUser(id).locale
+    }
+
+    public suspend fun createUser(id: Long, username: String, balance: Long = 0, wins: Long = 0, losses: Long = 0, locale: Language = Language.EN_US): UserModel {
+        val model = UserModel(id, username, balance, wins, losses, locale.language)
         repository.create(model)
         return model
     }

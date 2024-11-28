@@ -7,12 +7,13 @@ import kotlinx.coroutines.launch
 import net.kingchev.database.model.UserModel
 import net.kingchev.database.query
 import net.kingchev.database.schema.UserSchema
-import net.kingchev.model.Constants.ID_LONG
+import net.kingchev.localization.model.Language
+import net.kingchev.model.BotMetadata.ID_LONG
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 
 public object UserRepository : Repository<UserSchema, UserModel>(UserSchema) {
-    private val default = UserModel(ID_LONG, "Hisoka Morow#6440", 0, 0, 0)
+    private val default = UserModel(ID_LONG, "Hisoka Morow#6440", 0, 0, 0, Language.EN_US.language)
 
     init {
         GlobalScope.launch {
@@ -27,6 +28,7 @@ public object UserRepository : Repository<UserSchema, UserModel>(UserSchema) {
             it[schema.balance] = model.balance
             it[schema.wins] = model.wins
             it[schema.losses] = model.losses
+            it[schema.locale] = model.locale
         }
     }
 
@@ -38,7 +40,8 @@ public object UserRepository : Repository<UserSchema, UserModel>(UserSchema) {
                 it[schema.username],
                 it[schema.balance],
                 it[schema.wins],
-                it[schema.losses]
+                it[schema.losses],
+                it[schema.locale]
             ) }
             .singleOrNull()
     }
@@ -51,7 +54,8 @@ public object UserRepository : Repository<UserSchema, UserModel>(UserSchema) {
                 it[schema.username],
                 it[schema.balance],
                 it[schema.wins],
-                it[schema.losses]
+                it[schema.losses],
+                it[schema.locale]
             ) }
             .singleOrNull()
     }
@@ -63,6 +67,7 @@ public object UserRepository : Repository<UserSchema, UserModel>(UserSchema) {
             it[schema.balance] = model.balance
             it[schema.wins] = model.wins
             it[schema.losses] = model.losses
+            it[schema.locale] = model.locale
         }
     }
 

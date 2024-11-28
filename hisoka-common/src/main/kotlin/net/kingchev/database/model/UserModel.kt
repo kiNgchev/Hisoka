@@ -6,4 +6,5 @@ public data class UserModel(
     public val balance: Long,
     public val wins: Long,
     public val losses: Long,
+    public val locale: String
 )
