@@ -1,11 +1,11 @@
-package net.kingchev.command
+package net.kingchev.command.model
 
 import dev.kord.core.event.interaction.GuildChatInputCommandInteractionCreateEvent
-import dev.kord.rest.builder.interaction.GlobalChatInputCreateBuilder
+import net.kingchev.command.annotation.CommandData
+import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-
-public sealed interface ICommand {
+public interface ICommand {
     public fun getData(): CommandData {
         return try {
             javaClass.getAnnotation(CommandData::class.java)
@@ -15,13 +15,11 @@ public sealed interface ICommand {
         }
     }
 
-    public fun build(): GlobalChatInputCreateBuilder.() -> Unit
-
     public suspend fun isValid(event: GuildChatInputCommandInteractionCreateEvent): Boolean
 
     public suspend fun execute(event: GuildChatInputCommandInteractionCreateEvent)
 
     public companion object {
-        private val logger = LoggerFactory.getLogger(ICommand::class.java)
+        public val logger: Logger = LoggerFactory.getLogger(ICommand::class.java)
     }
 }

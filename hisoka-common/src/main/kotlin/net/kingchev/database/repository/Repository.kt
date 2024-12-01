@@ -1,6 +1,5 @@
 package net.kingchev.database.repository
 
-import net.kingchev.database.model.UserModel
 import org.jetbrains.exposed.sql.Table
 
 public abstract class Repository<T : Table, M>(protected val schema: T) {

@@ -5,7 +5,6 @@ import net.kingchev.database.model.UserModel
 import net.kingchev.database.repository.UserRepository
 import net.kingchev.localization.model.Language
 import net.kingchev.localization.model.parse
-import kotlin.jvm.Throws
 
 public object UserService {
     private val repository = UserRepository

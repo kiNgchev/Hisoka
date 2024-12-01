@@ -13,7 +13,7 @@ public object ConfigService : Initializable {
 
     public var config: HisokaConfig? = null
 
-    public override fun initialize() {
+    public override suspend fun initialize() {
         logger.info("Config initialization started")
 
         val token by Environment("BOT_TOKEN")

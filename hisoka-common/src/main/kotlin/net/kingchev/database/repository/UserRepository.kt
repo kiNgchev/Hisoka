@@ -9,8 +9,11 @@ import net.kingchev.database.query
 import net.kingchev.database.schema.UserSchema
 import net.kingchev.localization.model.Language
 import net.kingchev.model.BotMetadata.ID_LONG
-import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+import org.jetbrains.exposed.sql.deleteWhere
+import org.jetbrains.exposed.sql.selectAll
+import org.jetbrains.exposed.sql.update
+import org.jetbrains.exposed.sql.upsert
 
 public object UserRepository : Repository<UserSchema, UserModel>(UserSchema) {
     private val default = UserModel(ID_LONG, "Hisoka Morow#6440", 0, 0, 0, Language.EN_US.language)

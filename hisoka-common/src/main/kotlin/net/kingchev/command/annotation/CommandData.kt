@@ -1,4 +1,4 @@
-package net.kingchev.command
+package net.kingchev.command.annotation
 
 import java.lang.annotation.Inherited
 
@@ -7,9 +7,9 @@ import java.lang.annotation.Inherited
 @Target(allowedTargets = [AnnotationTarget.CLASS])
 public annotation class CommandData(
     val key: String,
+    val group: String,
     val aliases: Array<String> = [],
     val description: String,
-    val group: String,
     val hidden: Boolean = false,
     val developerOnly: Boolean = false,
     val guildOnly: Boolean = true,

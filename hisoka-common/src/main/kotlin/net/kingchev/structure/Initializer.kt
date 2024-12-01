@@ -3,7 +3,7 @@ package net.kingchev.structure
 import net.kingchev.utils.ReflectionUtils
 
 public object Initializer {
-    public fun init() {
+    public suspend fun init() {
         val initializables = ReflectionUtils.getSubclasses<Initializable>()
         for (initializable in initializables) {
             try {

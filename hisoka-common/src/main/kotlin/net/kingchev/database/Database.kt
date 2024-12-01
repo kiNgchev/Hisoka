@@ -6,12 +6,12 @@ import net.kingchev.structure.delegation.Property
 import net.kingchev.utils.ReflectionUtils
 import org.jetbrains.exposed.sql.Schema
 import org.jetbrains.exposed.sql.SchemaUtils
-import org.jetbrains.exposed.sql.Database as Exposed
 import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.jetbrains.exposed.sql.Database as Exposed
 
 public object DatabaseInitializer : Initializable {
     private val url by Property("database.connection.url")
@@ -21,7 +21,7 @@ public object DatabaseInitializer : Initializable {
 
     public val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
-    override fun initialize() {
+    override suspend fun initialize() {
         val schemas = ReflectionUtils.getSubclasses<Table>("net.kingchev.database.schema")
         val connection = Exposed.connect(
             url,
@@ -36,6 +36,7 @@ public object DatabaseInitializer : Initializable {
                 SchemaUtils.createMissingTablesAndColumns(schema.objectInstance ?: throw IllegalStateException("Schema ${schema.qualifiedName} is not object"))
             }
         }
+        logger.info("Database has been initialized")
     }
 }
 

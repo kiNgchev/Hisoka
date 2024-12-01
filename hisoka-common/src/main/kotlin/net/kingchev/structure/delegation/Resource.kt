@@ -1,7 +1,7 @@
 package net.kingchev.structure.delegation
 
 import kotlinx.io.files.FileNotFoundException
-import java.util.Properties
+import java.util.*
 import kotlin.reflect.KProperty
 
 public class Property(private val key: String, private var path: String = "application.properties", system: Boolean = false) {
