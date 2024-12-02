@@ -1,22 +1,17 @@
 package net.kingchev.command.model
 
 import dev.kord.rest.builder.interaction.GlobalChatInputCreateBuilder
-import net.kingchev.command.annotation.GroupData
+import net.kingchev.command.model.builder.GroupBuilder
+import net.kingchev.command.model.data.GroupData
 import org.slf4j.LoggerFactory
 
-public abstract class AbstractGroup {
+public abstract class AbstractGroup(builder: GroupBuilder.() -> Unit) {
+    public val data: GroupData = GroupBuilder().apply(builder).build()
     public val commands: HashMap<String, ICommand> = hashMapOf()
 
-    public fun getData(): GroupData {
-        return try {
-            javaClass.getAnnotation(GroupData::class.java)
-        } catch (_: NullPointerException) {
-            logger.error("Data annotation in command ${javaClass.name} is not defined")
-            GroupData(name = "none", description = "none")
-        }
-    }
+    public open fun build(): GlobalChatInputCreateBuilder.() -> Unit = {
 
-    public abstract fun build(): GlobalChatInputCreateBuilder.() -> Unit
+    }
 
     public companion object {
         private val logger = LoggerFactory.getLogger(AbstractGroup::class.java)

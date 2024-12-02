@@ -26,11 +26,12 @@ public object BotService {
         }
     }
 
+    @Suppress("NAME_SHADOWING")
     public suspend fun registerCommands(kord: Kord) {
         getSubclasses<AbstractCommand>("net.kingchev.command.impl").forEach {
             try {
                 val instance = it.primaryConstructor?.call(kord) ?: return@forEach
-                commands[instance.getData().key] = instance
+                commands[instance.data.key] = instance
                 logger.info("Command [${it.simpleName}] has been registered")
             } catch (_: IllegalArgumentException) {
                 logger.error("Error occurred while command [${it.simpleName}] be registered")
@@ -38,20 +39,19 @@ public object BotService {
         }
 
         commands.forEach { (key, command) ->
-            kord.createGlobalChatInputCommand(key, command.getData().description, (command as AbstractCommand).build())
+            val command = command as AbstractCommand
+            kord.createGlobalChatInputCommand(key, command.data.description, command.build())
             logger.info("Command [$key] has been registered in discord app")
         }
 
-        kord.getGlobalApplicationCommands().collect {
-            if (!commands.containsKey(it.name)) it.delete()
-        }
+        clearCommands(kord)
     }
 
     public suspend fun registerGroupCommands(kord: Kord) {
         getSubclasses<AbstractGroup>("net.kingchev.command.impl").forEach {
             try {
                 val instance = it.primaryConstructor?.call(kord) ?: return@forEach
-                groups[instance.getData().name] = instance
+                groups[instance.data.name] = instance
                 logger.info("Command group [${it.simpleName}] has been registered")
             } catch (_: IllegalArgumentException) {
                 logger.error("Error occurred while command group [${it.simpleName}] be registered")
@@ -59,11 +59,18 @@ public object BotService {
         }
 
         groups.forEach { (key, group) ->
-            kord.createGlobalChatInputCommand(key, group.getData().description, group.build())
+            kord.createGlobalChatInputCommand(key, group.data.description, group.build())
         }
 
+        clearCommands(kord)
+    }
+
+    private suspend fun clearCommands(kord: Kord) {
         kord.getGlobalApplicationCommands().collect {
-            if (!groups.containsKey(it.name)) it.delete()
+            if (!groups.containsKey(it.name) and !commands.containsKey(it.name)) {
+                it.delete()
+                logger.info("Command or commands group [${it.name}] has been deleted")
+            }
         }
     }
 }
