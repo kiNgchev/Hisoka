@@ -1,6 +1,8 @@
 package net.kingchev.structure.delegation
 
+import io.github.cdimascio.dotenv.dotenv
 import kotlinx.io.files.FileNotFoundException
+import net.kingchev.service.DotenvConfigService
 import java.util.*
 import kotlin.reflect.KProperty
 
@@ -22,8 +24,14 @@ public class Property(private val key: String, private var path: String = "appli
 }
 
 public class Environment(private val key: String, private val system: Boolean = true) {
+    private fun getSystem(key: String): String? {
+        return System.getenv(key)
+    }
+
     public operator fun getValue(thisRef: Any?, property: KProperty<*>): String {
-        return if (system) System.getenv(key) ?: throw NullPointerException("This environment value is not defined for $key")
-        else throw UnsupportedOperationException("Unable to get environment variables from .env file")
+        return if (system) getSystem(key)
+        else {
+            DotenvConfigService.dotenv[key] ?: getSystem(key)
+        } ?: throw NullPointerException("This environment value is not defined for $key")
     }
 }

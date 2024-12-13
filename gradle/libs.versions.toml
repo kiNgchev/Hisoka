@@ -7,6 +7,7 @@ postgres = "42.7.4"
 kord = "0.15.0"
 slf4j = "2.0.16"
 logback = "1.5.12"
+dotenv = "6.4.2"
 
 [libraries]
 # kotlin
@@ -33,6 +34,9 @@ logback-core = { group = "ch.qos.logback", name = "logback-classic", version.ref
 # plugins dependency
 kotlin-jvm = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
+
+# other
+dotenv = { group = "io.github.cdimascio", name = "dotenv-kotlin", version.ref = "dotenv" }
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
