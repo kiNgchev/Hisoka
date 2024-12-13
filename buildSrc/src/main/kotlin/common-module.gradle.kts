@@ -15,6 +15,7 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.slf4j.api)
     implementation(libs.logback.core)
+    implementation(libs.dotenv)
     testImplementation(kotlin("test"))
 }
 
