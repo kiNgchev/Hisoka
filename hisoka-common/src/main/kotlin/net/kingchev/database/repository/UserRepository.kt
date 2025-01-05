@@ -2,8 +2,6 @@
 
 package net.kingchev.database.repository
 
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import net.kingchev.database.model.UserModel
 import net.kingchev.database.query
 import net.kingchev.database.schema.UserSchema
@@ -17,12 +15,6 @@ import org.jetbrains.exposed.sql.upsert
 
 public object UserRepository : Repository<UserSchema, UserModel>(UserSchema) {
     private val default = UserModel(ID_LONG, "Hisoka Morow#6440", Language.EN_US.language)
-
-    init {
-        GlobalScope.launch {
-            if (read(default.id) == null) create(default)
-        }
-    }
 
     public override suspend fun create(model: UserModel): Unit = query {
         schema.upsert(schema.id) {
