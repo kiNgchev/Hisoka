@@ -28,41 +28,6 @@ public object UserService {
     }
 
     @Throws(EntryNotFoundException::class)
-    public suspend fun changeBalance(id: Long, newBalance: Long) {
-        val result = getUser(id)
-        val model = result.copy(balance = newBalance)
-        repository.update(id, model)
-    }
-
-    @Throws(EntryNotFoundException::class)
-    public suspend fun incrementWins(id: Long) {
-        val result = getUser(id)
-        val model = result.copy(wins = result.wins.inc())
-        repository.update(id, model)
-    }
-
-    @Throws(EntryNotFoundException::class)
-    public suspend fun decrementWins(id: Long) {
-        val result = getUser(id)
-        val model = result.copy(wins = result.wins.dec())
-        repository.update(id, model)
-    }
-
-    @Throws(EntryNotFoundException::class)
-    public suspend fun incrementLosses(id: Long) {
-        val result = getUser(id)
-        val model = result.copy(losses = result.losses.inc())
-        repository.update(id, model)
-    }
-
-    @Throws(EntryNotFoundException::class)
-    public suspend fun decrementLosses(id: Long) {
-        val result = getUser(id)
-        val model = result.copy(losses = result.losses.dec())
-        repository.update(id, model)
-    }
-
-    @Throws(EntryNotFoundException::class)
     public suspend fun setLocale(id: Long, locale: String) {
         setLocale(id, parse(locale))
     }
@@ -80,7 +45,7 @@ public object UserService {
     }
 
     public suspend fun createUser(id: Long, username: String, balance: Long = 0, wins: Long = 0, losses: Long = 0, locale: Language = Language.EN_US): UserModel {
-        val model = UserModel(id, username, balance, wins, losses, locale.language)
+        val model = UserModel(id, username, locale.language)
         repository.create(model)
         return model
     }
