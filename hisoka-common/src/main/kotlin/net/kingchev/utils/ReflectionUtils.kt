@@ -25,7 +25,7 @@ public object ReflectionUtils {
                 val dirPath = URLDecoder.decode(res.nextElement().path, "UTF-8")
                 val dir = File(dirPath)
                 dir.listFiles()?.forEach { file ->
-                    if (file.isDirectory) result.addAll(getClass("$BASE_APP_PACKAGE.${file.name}", block))
+                    if (file.isDirectory) result.addAll(getClass("$packageName.${file.name}", block))
                 }
             }
         } catch (_: IOException) {
