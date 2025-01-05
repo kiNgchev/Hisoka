@@ -1,4 +1,4 @@
-package net.kingchev.command.impl
+package net.kingchev.command.impl.utils
 
 import dev.kord.common.entity.Snowflake
 import dev.kord.core.Kord

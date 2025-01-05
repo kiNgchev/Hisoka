@@ -1,4 +1,4 @@
-package net.kingchev.command.impl
+package net.kingchev.command.impl.utils
 
 import dev.kord.core.Kord
 import dev.kord.core.behavior.interaction.response.respond
