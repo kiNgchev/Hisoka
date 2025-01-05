@@ -14,7 +14,7 @@ import org.jetbrains.exposed.sql.update
 import org.jetbrains.exposed.sql.upsert
 
 public object UserRepository : Repository<UserSchema, UserModel>(UserSchema) {
-    private val default = UserModel(ID_LONG, "Hisoka Morow#6440", Language.EN_US.language)
+    private val default = UserModel(ID_LONG, "Hisoka Morow#6440", true, Language.EN_US.language)
 
     public override suspend fun create(model: UserModel): Unit = query {
         schema.upsert(schema.id) {
@@ -30,6 +30,7 @@ public object UserRepository : Repository<UserSchema, UserModel>(UserSchema) {
             .map { UserModel(
                 it[schema.id],
                 it[schema.username],
+                it[schema.isPremium],
                 it[schema.locale]
             ) }
             .singleOrNull()
@@ -41,6 +42,7 @@ public object UserRepository : Repository<UserSchema, UserModel>(UserSchema) {
             .map { UserModel(
                 it[schema.id],
                 it[schema.username],
+                it[schema.isPremium],
                 it[schema.locale]
             ) }
             .singleOrNull()
@@ -50,6 +52,7 @@ public object UserRepository : Repository<UserSchema, UserModel>(UserSchema) {
         schema.update({ schema.id eq id }) {
             it[schema.id] = model.id
             it[schema.username] = model.username
+            it[schema.isPremium] = model.isPremium
             it[schema.locale] = model.locale
         }
     }

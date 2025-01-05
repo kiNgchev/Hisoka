@@ -19,6 +19,7 @@ kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 exposed-core = { group = "org.jetbrains.exposed", name = "exposed-core", version.ref = "exposed" }
 exposed-dao = { group = "org.jetbrains.exposed", name = "exposed-dao", version.ref = "exposed" }
 exposed-jdbc = { group = "org.jetbrains.exposed", name = "exposed-jdbc", version.ref = "exposed" }
+exposed-migration = { group = "org.jetbrains.exposed", name = "exposed-migration", version.ref = "exposed" }
 postgresql = { group = "org.postgresql", name = "postgresql", version.ref = "postgres"}
 
 # kord
@@ -50,7 +51,8 @@ plugins = [
 exposed = [
     "exposed-core",
     "exposed-dao",
-    "exposed-jdbc"
+    "exposed-jdbc",
+    "exposed-migration"
 ]
 kord = [
     "kord-core",

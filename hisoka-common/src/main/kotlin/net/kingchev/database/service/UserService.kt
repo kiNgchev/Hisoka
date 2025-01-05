@@ -44,8 +44,8 @@ public object UserService {
         return getUser(id).locale
     }
 
-    public suspend fun createUser(id: Long, username: String, balance: Long = 0, wins: Long = 0, losses: Long = 0, locale: Language = Language.EN_US): UserModel {
-        val model = UserModel(id, username, locale.language)
+    public suspend fun createUser(id: Long, username: String, isPremium: Boolean = false, locale: Language = Language.EN_US): UserModel {
+        val model = UserModel(id, username, isPremium, locale.language)
         repository.create(model)
         return model
     }
