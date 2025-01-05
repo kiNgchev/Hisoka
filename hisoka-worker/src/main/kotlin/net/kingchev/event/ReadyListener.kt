@@ -18,7 +18,7 @@ public class ReadyListener(kord: Kord) : IListener {
                 status = PresenceStatus.DoNotDisturb
                 playing("Покер\uD83C\uDCCF")
             }
-            logger.info("Bot was started with id[${kord.selfId}], name[${kord.getSelf().globalName}]")
+            logger.info("Bot was started with id[${kord.selfId}], name[${kord.getSelf().username}]")
         }
     }
 }
