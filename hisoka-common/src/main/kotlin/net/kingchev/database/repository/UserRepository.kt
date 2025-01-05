@@ -16,7 +16,7 @@ import org.jetbrains.exposed.sql.update
 import org.jetbrains.exposed.sql.upsert
 
 public object UserRepository : Repository<UserSchema, UserModel>(UserSchema) {
-    private val default = UserModel(ID_LONG, "Hisoka Morow#6440", 0, 0, 0, Language.EN_US.language)
+    private val default = UserModel(ID_LONG, "Hisoka Morow#6440", Language.EN_US.language)
 
     init {
         GlobalScope.launch {
@@ -28,9 +28,6 @@ public object UserRepository : Repository<UserSchema, UserModel>(UserSchema) {
         schema.upsert(schema.id) {
             it[schema.id] = model.id
             it[schema.username] = model.username
-            it[schema.balance] = model.balance
-            it[schema.wins] = model.wins
-            it[schema.losses] = model.losses
             it[schema.locale] = model.locale
         }
     }
@@ -41,9 +38,6 @@ public object UserRepository : Repository<UserSchema, UserModel>(UserSchema) {
             .map { UserModel(
                 it[schema.id],
                 it[schema.username],
-                it[schema.balance],
-                it[schema.wins],
-                it[schema.losses],
                 it[schema.locale]
             ) }
             .singleOrNull()
@@ -55,9 +49,6 @@ public object UserRepository : Repository<UserSchema, UserModel>(UserSchema) {
             .map { UserModel(
                 it[schema.id],
                 it[schema.username],
-                it[schema.balance],
-                it[schema.wins],
-                it[schema.losses],
                 it[schema.locale]
             ) }
             .singleOrNull()
@@ -67,9 +58,6 @@ public object UserRepository : Repository<UserSchema, UserModel>(UserSchema) {
         schema.update({ schema.id eq id }) {
             it[schema.id] = model.id
             it[schema.username] = model.username
-            it[schema.balance] = model.balance
-            it[schema.wins] = model.wins
-            it[schema.losses] = model.losses
             it[schema.locale] = model.locale
         }
     }
