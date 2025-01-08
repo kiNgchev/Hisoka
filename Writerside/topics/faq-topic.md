@@ -1,0 +1,3 @@
+# FAQ
+
+Right now in here is void...
