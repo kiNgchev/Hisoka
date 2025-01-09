@@ -2,6 +2,7 @@ package net.kingchev.localization.service
 
 import dev.kord.common.Locale
 import net.kingchev.localization.model.Bundle
+import net.kingchev.localization.model.DEFAULT
 import net.kingchev.localization.model.Language
 import java.util.*
 
@@ -22,7 +23,8 @@ public object LocaleService {
                 val result = it.entries.getString(key)
                 return String(result.toByteArray(), charset("UTF-8"))
             } catch (_: MissingResourceException) {
-                return@forEach
+                if (locale != DEFAULT.language) return getMessage(key, DEFAULT.language)
+                else return@forEach
             }
         }
         return key
