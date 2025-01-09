@@ -30,7 +30,7 @@ public class EightBallCommand(private val kord: Kord) : AbstractCommand({
         }
     }
 
-    override suspend fun isValid(event: GuildChatInputCommandInteractionCreateEvent): Boolean = true
+    override suspend fun validate(event: GuildChatInputCommandInteractionCreateEvent): Boolean = true
 
     override suspend fun execute(event: GuildChatInputCommandInteractionCreateEvent) {
         val interaction = event.interaction.deferEphemeralResponse()

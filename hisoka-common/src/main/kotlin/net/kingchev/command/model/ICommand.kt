@@ -5,7 +5,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 public interface ICommand {
-    public suspend fun isValid(event: GuildChatInputCommandInteractionCreateEvent): Boolean
+    public suspend fun validate(event: GuildChatInputCommandInteractionCreateEvent): Boolean
 
     public suspend fun execute(event: GuildChatInputCommandInteractionCreateEvent)
 

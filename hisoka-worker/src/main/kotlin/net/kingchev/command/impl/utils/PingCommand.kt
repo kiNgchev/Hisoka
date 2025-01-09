@@ -22,7 +22,7 @@ public class PingCommand(private val kord: Kord) : AbstractCommand({ key("ping")
         descriptionLocalizations = LocaleService.createDiscordMessage(data.description)
     }
 
-    override suspend fun isValid(event: GuildChatInputCommandInteractionCreateEvent): Boolean = true
+    override suspend fun validate(event: GuildChatInputCommandInteractionCreateEvent): Boolean = true
 
     override suspend fun execute(event: GuildChatInputCommandInteractionCreateEvent) {
         val restPing = getRestPing(event.kord)

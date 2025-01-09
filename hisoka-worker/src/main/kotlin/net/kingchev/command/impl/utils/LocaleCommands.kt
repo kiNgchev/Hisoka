@@ -52,7 +52,7 @@ public class LocaleCommandGroup(private val kord: Kord) : AbstractGroup({ name("
             }
         }
 
-        override suspend fun isValid(event: GuildChatInputCommandInteractionCreateEvent): Boolean = true
+        override suspend fun validate(event: GuildChatInputCommandInteractionCreateEvent): Boolean = true
 
         override suspend fun execute(event: GuildChatInputCommandInteractionCreateEvent) {
             val interaction = event.interaction.deferPublicResponse()
@@ -79,7 +79,7 @@ public class LocaleCommandGroup(private val kord: Kord) : AbstractGroup({ name("
     }
 
     public class ViewLocaleCommand(private val kord: Kord) : AbstractSubCommand({ key("view"); description("command.locale.view.metadata.description") }) {
-        override suspend fun isValid(event: GuildChatInputCommandInteractionCreateEvent): Boolean = true
+        override suspend fun validate(event: GuildChatInputCommandInteractionCreateEvent): Boolean = true
 
         override suspend fun execute(event: GuildChatInputCommandInteractionCreateEvent) {
             val locale = UserService.getLocale(event.interaction.user.idLong)
