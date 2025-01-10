@@ -20,6 +20,7 @@ public object UserRepository : Repository<UserSchema, UserModel>(UserSchema) {
         schema.upsert(schema.id) {
             it[schema.id] = model.id
             it[schema.username] = model.username
+            it[schema.isPremium] = model.isPremium
             it[schema.locale] = model.locale
         }
     }
