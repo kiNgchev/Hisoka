@@ -1,10 +1,12 @@
-package net.kingchev.event
+package net.kingchev.event.handler
 
 import dev.kord.common.entity.optional.orEmpty
 import dev.kord.core.Kord
 import dev.kord.core.event.interaction.GuildChatInputCommandInteractionCreateEvent
 import dev.kord.core.on
+import net.kingchev.event.IListener
 import net.kingchev.service.BotService
+import kotlin.collections.get
 
 public class CommandHandler(kord: Kord) : IListener {
     private val bot = BotService
@@ -18,7 +20,8 @@ public class CommandHandler(kord: Kord) : IListener {
                 ?: bot.groups[invokedCommandName]?.commands?.get(subCommand)
                 ?: return@on
 
-            command.execute(this)
+            if (command.validate(this))
+                command.execute(this)
         }
     }
 }
