@@ -24,7 +24,7 @@ public class Property(private val key: String, private var path: String = "appli
         ?: throw NullPointerException("This property value is not defined for $key")
 
     public operator fun setValue(thisRef: Any?, property: KProperty<*>, value: String): Nothing
-            = throw UnsupportedOperationException("You mayn't change this value")
+            = throw UnsupportedOperationException("You may not change this value")
 }
 
 public class Environment(private val key: String, private val system: Boolean = true) {
@@ -41,5 +41,5 @@ public class Environment(private val key: String, private val system: Boolean = 
     }
 
     public operator fun setValue(thisRef: Any?, property: KProperty<*>, value: String): Nothing
-        = throw UnsupportedOperationException("You mayn't change this value")
+        = throw UnsupportedOperationException("You may not change this value")
 }
