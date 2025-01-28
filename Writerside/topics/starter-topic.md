@@ -15,13 +15,13 @@ You can get support on the official [discord server](https://discord.gg/6qByWbr2
 Bot was translated in:
 - English (Default)
 - Russian
-- German
 
 We work every day to improve the quality of translation.
 <warning>
-German translation in experimental state. It may have a grammar issues.
+Translation in experimental state. It may have a grammar issues.
 
-If you find grammar issues in German or other translations, say it the <a href="https://discord.com/users/743878110747033691">main developer</a>
+If you find grammar issues in translations,
+say it the <a href="https://discord.com/users/743878110747033691">main developer</a>
 </warning>
 <note>
 If you want to help our command with bot translating, then going to our <a href="https://crowdin.com/project/hisoka">Crowdin project</a>

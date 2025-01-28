@@ -9,7 +9,6 @@ import java.util.*
 public object LocaleService {
     private val bundles: MutableMap<String, Array<Bundle>> = mutableMapOf()
     private val discordLocales: Map<Locale, Language> = mapOf(
-        Locale.GERMAN to Language.DE_DE,
         Locale.RUSSIAN to Language.RU_RU
     )
 
@@ -24,6 +23,14 @@ public object LocaleService {
                 val result = it.entries.getString(key)
                 return String(result.toByteArray(), charset("UTF-8"))
             } catch (_: MissingResourceException) {
+                bundles[DEFAULT_LOCALE.language]?.forEach {
+                    try {
+                        val result = it.entries.getString(key)
+                        return String(result.toByteArray(), charset("UTF-8"))
+                    } catch (_: MissingResourceException) {
+                        return@forEach
+                    }
+                }
                 return@forEach
             }
         }

@@ -15,7 +15,6 @@ public enum class Language(
     public var nativeName: String,
     public var englishName: String
 ) {
-    DE_DE("de", "DE", "Deutsch", "German"),
     EN_US("en", "US", "English", "English"),
     RU_RU("ru", "RU", "Русский", "Russian");
 
