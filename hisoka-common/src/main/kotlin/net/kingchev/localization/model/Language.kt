@@ -3,14 +3,17 @@ package net.kingchev.localization.model
 import net.kingchev.localization.model.Language.EN_US
 import java.util.*
 
-public val DEFAULT: Language = EN_US
+public val DEFAULT_LOCALE: Language = EN_US
 
 public class Bundle(baseName: String, language: Language) {
     public val entries: ResourceBundle = ResourceBundle.getBundle("locale.$baseName", language.locale)
 }
 
-public enum class Language(public val language: String, country: String, public var nativeName: String,
-                           public var englishName: String
+public enum class Language(
+    public val language: String,
+    country: String,
+    public var nativeName: String,
+    public var englishName: String
 ) {
     DE_DE("de", "DE", "Deutsch", "German"),
     EN_US("en", "US", "English", "English"),
