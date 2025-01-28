@@ -1,6 +1,7 @@
+@file:Suppress("UNUSED")
+
 package net.kingchev.structure.delegation
 
-import io.github.cdimascio.dotenv.dotenv
 import kotlinx.io.files.FileNotFoundException
 import net.kingchev.service.DotenvConfigService
 import java.util.*
@@ -16,7 +17,7 @@ public class Property(private val key: String, private var path: String = "appli
             properties = Properties()
             properties.load(javaClass.getResourceAsStream(path)
                 ?: throw FileNotFoundException("Properties file not found on path: $path"))
-        } else properties = System.getProperties();
+        } else properties = System.getProperties()
     }
 
     public operator fun getValue(thisRef: Any?, property: KProperty<*>): String
@@ -43,3 +44,8 @@ public class Environment(private val key: String, private val system: Boolean = 
     public operator fun setValue(thisRef: Any?, property: KProperty<*>, value: String): Nothing
         = throw UnsupportedOperationException("You may not change this value")
 }
+
+public fun property(key: String, path: String, system: Boolean = false): Property = Property(key, path, system)
+public fun property(key: String, system: Boolean = false): Property = Property(key, system = system)
+
+public fun env(key: String, system: Boolean): Environment = Environment(key, system)
