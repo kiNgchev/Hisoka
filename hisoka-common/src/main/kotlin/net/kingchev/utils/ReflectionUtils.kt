@@ -37,7 +37,8 @@ public object ReflectionUtils {
         currDir.list()?.forEach { classFile ->
             if (classFile.endsWith(".class")) {
                 try {
-                    val add: KClass<*> = Class.forName("$packageName.${classFile.substring(0, classFile.length - 6)}").kotlin
+                    val name = "$packageName.${classFile.removeSuffix(".class")}"
+                    val add: KClass<*> = Class.forName(name).kotlin
                     if (block.invoke(add)) result.add(add)
                 } catch (_: NoClassDefFoundError) {
                     logger.error("We have found class [$classFile], and couldn't load it.")
