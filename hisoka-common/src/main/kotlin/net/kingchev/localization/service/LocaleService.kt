@@ -23,14 +23,6 @@ public object LocaleService {
                 val result = it.entries.getString(key)
                 return String(result.toByteArray(), charset("UTF-8"))
             } catch (_: MissingResourceException) {
-                bundles[DEFAULT_LOCALE.language]?.forEach {
-                    try {
-                        val result = it.entries.getString(key)
-                        return String(result.toByteArray(), charset("UTF-8"))
-                    } catch (_: MissingResourceException) {
-                        return@forEach
-                    }
-                }
                 return@forEach
             }
         }
