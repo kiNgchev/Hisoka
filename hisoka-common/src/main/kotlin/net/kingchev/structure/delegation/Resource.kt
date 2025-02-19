@@ -48,4 +48,4 @@ public class Environment(private val key: String, private val system: Boolean = 
 public fun property(key: String, path: String, system: Boolean = false): Property = Property(key, path, system)
 public fun property(key: String, system: Boolean = false): Property = Property(key, system = system)
 
-public fun env(key: String, system: Boolean): Environment = Environment(key, system)
+public fun env(key: String, system: Boolean = true): Environment = Environment(key, system)
