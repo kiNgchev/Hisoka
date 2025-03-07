@@ -1,0 +1,21 @@
+name: Benchmarks CI
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  build:
+    name: 'Call jmh task'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 'Set up JDK'
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - name: 'Set up Gradle'
+        uses: gradle/actions/setup-gradle@v4
+      - name: 'Build with Gradle'
+        run: ./gradlew --stacktrace --info jmh
