@@ -9,3 +9,6 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 include(":hisoka-common")
 include("hisoka-worker")
+include("hisoka-modules")
+include("hisoka-modules:hisoka-moderation")
+findProject(":hisoka-modules:hisoka-moderation")?.name = "hisoka-moderation"
