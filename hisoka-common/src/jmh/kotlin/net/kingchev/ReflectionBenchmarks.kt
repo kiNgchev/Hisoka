@@ -6,7 +6,7 @@ import kotlin.reflect.KClass
 
 open class ReflectionBenchmarks {
     @Benchmark
-    fun getSubclassesBenchmark(): HashSet<KClass<Base>> {
-        return ReflectionUtils.getSubclasses<Base>()
+    fun getSubclassesBenchmark(): HashSet<KClass<TestBase>> {
+        return ReflectionUtils.getSubclasses<TestBase>()
     }
 }

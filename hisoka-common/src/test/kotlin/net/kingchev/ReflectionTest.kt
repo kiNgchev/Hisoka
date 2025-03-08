@@ -8,14 +8,14 @@ class ReflectionTest {
     @Test
     fun getClassReflectionTest() {
         val actual = setOf(Subclass1::class, Subclass2::class, Subclass3::class, Subclass5::class)
-        assertEquals(ReflectionUtils.getSubclasses<Base>().toSet(), actual)
-        assertEquals(ReflectionUtils.getSubclasses(klass = Base::class).toSet(), actual)
+        assertEquals(ReflectionUtils.getSubclasses<TestBase>().toSet(), actual)
+        assertEquals(ReflectionUtils.getSubclasses(klass = TestBase::class).toSet(), actual)
     }
 }
 
-open class Base
-class Subclass1 : Base()
-class Subclass2 : Base()
-open class Subclass3 : Base()
+open class TestBase
+class Subclass1 : TestBase()
+class Subclass2 : TestBase()
+open class Subclass3 : TestBase()
 class Subclass4
 class Subclass5 : Subclass3()
