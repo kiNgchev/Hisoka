@@ -44,6 +44,10 @@ public object UserService {
         return getUser(id).locale
     }
 
+    public suspend fun getLocale(id: Long, username: String): String {
+        return getUserWithCreate(id, username).locale
+    }
+
     public suspend fun createUser(id: Long, username: String, isPremium: Boolean = false, locale: Language = Language.EN_US): UserModel {
         val model = UserModel(id, username, isPremium, locale.language)
         repository.create(model)
@@ -53,6 +57,10 @@ public object UserService {
     @Throws(EntryNotFoundException::class)
     private suspend fun getUser(id: Long): UserModel {
         return repository.read(id) ?: throw EntryNotFoundException("The user with id `$id` not found")
+    }
+
+    private suspend fun getUserWithCreate(id: Long, username: String): UserModel {
+        return repository.read(id) ?: createUser(id, username)
     }
 
     @Throws(EntryNotFoundException::class)
