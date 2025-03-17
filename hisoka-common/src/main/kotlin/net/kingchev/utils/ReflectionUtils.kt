@@ -6,6 +6,7 @@ import java.io.File
 import java.lang.Thread.currentThread
 import java.util.stream.Stream
 import kotlin.reflect.KClass
+import kotlin.reflect.full.hasAnnotation
 import kotlin.reflect.full.superclasses
 
 public const val BASE_APP_PACKAGE: String = "net.kingchev"
@@ -57,11 +58,19 @@ public object ReflectionUtils {
         return getClass(packageName) { isSuperclassContains(it, T::class) }.map { it as KClass<T> }.toHashSet()
     }
 
+    public inline fun <reified A : Annotation> getClassesWithAnnotation(packageName: String = BASE_APP_PACKAGE): HashSet<KClass<*>> {
+        return getClass(packageName) { isAnnotationContains<A>(it) }
+    }
+
     public fun isSuperclassContains(klass: KClass<*>, superKlass: KClass<*>): Boolean {
         if (klass.superclasses.contains(superKlass)) return true
         else for (cls in klass.superclasses) {
             if (isSuperclassContains(cls, superKlass)) return true
         }
         return false
+    }
+
+    public inline fun <reified A : Annotation> isAnnotationContains(klass: KClass<*>): Boolean {
+        return klass.hasAnnotation<A>()
     }
 }
