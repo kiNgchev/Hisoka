@@ -2,7 +2,10 @@ package net.kingchev
 
 import net.kingchev.context.ContextHolder
 import org.openjdk.jmh.annotations.Benchmark
+import org.openjdk.jmh.annotations.Scope
+import org.openjdk.jmh.annotations.State
 
+@State(Scope.Benchmark)
 open class ContextHolderBenchmarks {
     private val holder = ContextHolder
 
