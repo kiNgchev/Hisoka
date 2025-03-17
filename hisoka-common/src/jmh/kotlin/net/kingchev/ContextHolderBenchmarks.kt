@@ -3,7 +3,7 @@ package net.kingchev
 import net.kingchev.context.ContextHolder
 import org.openjdk.jmh.annotations.Benchmark
 
-class ContextHolderBenchmarks {
+open class ContextHolderBenchmarks {
     private val holder = ContextHolder
 
     init {
