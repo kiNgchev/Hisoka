@@ -3,10 +3,8 @@ package net.kingchev.utils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
-import java.io.IOException
 import java.lang.Thread.currentThread
-import java.net.URLDecoder
-import java.nio.file.Paths
+import java.util.stream.Stream
 import kotlin.reflect.KClass
 import kotlin.reflect.full.superclasses
 
@@ -15,34 +13,38 @@ public const val BASE_APP_PACKAGE: String = "net.kingchev"
 public object ReflectionUtils {
     public val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
-    public inline fun getClass(packageName: String = BASE_APP_PACKAGE, block: (klass: KClass<*>) -> Boolean): HashSet<KClass<*>> {
+    public inline fun getClass(packageName: String = BASE_APP_PACKAGE, crossinline block: (klass: KClass<*>) -> Boolean): HashSet<KClass<*>> {
         val result = hashSetOf<KClass<*>>()
         val loader = currentThread().contextClassLoader
-        val path = packageName.replace(".", File.separator)
+        val path = packageName.replace(".", "/")
 
-        val tmp = loader.getResource(path) ?: return result
-        val currDir = File(tmp.path)
+        val roots = loader.getResources(path) ?: return result
+        while (roots.hasMoreElements()) {
+            val currentTmp = roots.nextElement().path
+            val currDir = File(currentTmp)
 
-        currDir.walkTopDown()
-            .filter { !it.equals(null) and it.isFile and it.extension.equals("class", true) }
-            .forEach { file ->
-                try {
-                    val relativePath = currDir.toPath()
-                        .relativize(file.toPath())
-                        .toString()
-                    val name = "$packageName." + relativePath
-                        .replace(File.separator, ".")
-                        .removeSuffix(".class")
+            currDir.walkTopDown()
+                .filter { it.isFile and it.extension.equals("class", true) }
+                .forEach { file ->
+                    try {
+                        val relativePath = currDir.toPath()
+                            .relativize(file.toPath())
+                            .toString()
+                        val name = "$packageName." + relativePath
+                            .replace(File.separator, ".")
+                            .removeSuffix(".class")
 
-                    val clazz = loader.loadClass(name).kotlin
-                    if (block.invoke(clazz))
-                        result.add(clazz)
-                } catch (_: NoClassDefFoundError) {
-                    logger.error("We have found class [$file], and couldn't load it.")
-                } catch (_: ClassNotFoundException) {
-                    logger.error("We could not find class [$file]")
+                        val clazz = loader.loadClass(name).kotlin
+
+                        if (block(clazz))
+                            result.add(clazz)
+                    } catch (_: NoClassDefFoundError) {
+                        logger.error("We have found class [$file], and couldn't load it.")
+                    } catch (_: ClassNotFoundException) {
+                        logger.error("We could not find class [$file]")
+                    }
                 }
-            }
+        }
         return result
     }
 
