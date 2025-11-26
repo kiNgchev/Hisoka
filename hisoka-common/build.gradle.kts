@@ -1,6 +1,6 @@
 plugins {
-    `common-module`
-    `exposed-module`
-    `kord-module`
-    `jmh-module`
+    `common-conventions`
+    `exposed-conventions`
+    `kord-conventions`
+    `jmh-conventions`
 }

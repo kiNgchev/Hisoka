@@ -1,11 +1,10 @@
-import org.gradle.accessors.dm.LibrariesForLibs
-
 plugins {
     org.jetbrains.kotlin.jvm
     org.jetbrains.kotlin.plugins.`kotlinx-serialization`
 }
 
-val libs = the<LibrariesForLibs>()
+val libs = the<VersionCatalogsExtension>().named("libs")
+
 
 repositories {
     mavenCentral()
@@ -14,5 +13,5 @@ repositories {
 }
 
 dependencies {
-    implementation(libs.bundles.kord)
+    implementation(libs.findBundle("kord").get())
 }

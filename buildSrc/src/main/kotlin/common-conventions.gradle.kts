@@ -1,21 +1,19 @@
-import org.gradle.accessors.dm.LibrariesForLibs
-
 plugins {
     org.jetbrains.kotlin.jvm
     org.jetbrains.kotlin.plugins.`kotlinx-serialization`
 }
 
-val libs = the<LibrariesForLibs>()
+val libs = the<VersionCatalogsExtension>().named("libs")
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation(libs.kotlinx.serialization.json)
-    implementation(libs.slf4j.api)
-    implementation(libs.logback.core)
-    implementation(libs.dotenv)
+    implementation(libs.findLibrary("kotlinx-serialization-json").get())
+    implementation(libs.findLibrary("slf4j-api").get())
+    implementation(libs.findLibrary("logback-core").get())
+    implementation(libs.findLibrary("dotenv").get())
     testImplementation(kotlin("test"))
 }
 

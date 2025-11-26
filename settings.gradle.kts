@@ -5,10 +5,10 @@ plugins {
 }
 
 rootProject.name = "Hisoka"
-enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 include(":hisoka-common")
 include("hisoka-worker")
-include("hisoka-modules")
-include("hisoka-modules:hisoka-moderation")
-findProject(":hisoka-modules:hisoka-moderation")?.name = "hisoka-moderation"
+// Оставил на прошлом компьютере :)
+//include("hisoka-modules")
+//include("hisoka-modules:hisoka-moderation")
+//findProject(":hisoka-modules:hisoka-moderation")?.name = "hisoka-moderation"
