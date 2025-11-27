@@ -2,7 +2,7 @@ package net.kingchev.database
 
 import kotlinx.coroutines.Dispatchers
 import net.kingchev.structure.Initializable
-import net.kingchev.structure.delegation.Property
+import net.kingchev.structure.delegation.property
 import net.kingchev.utils.ReflectionUtils
 import org.jetbrains.exposed.sql.Schema
 import org.jetbrains.exposed.sql.SchemaUtils
@@ -14,10 +14,10 @@ import org.slf4j.LoggerFactory
 import org.jetbrains.exposed.sql.Database as Exposed
 
 public object DatabaseInitializer : Initializable {
-    private val url by Property("database.connection.url")
+    private val url: String by property("database.connection.url")
     private val driver = org.postgresql.Driver::class.qualifiedName!!
-    private val username by Property("database.connection.username")
-    private val password by Property("database.connection.password")
+    private val username: String by property("database.connection.username")
+    private val password: String by property("database.connection.password")
 
     public val logger: Logger = LoggerFactory.getLogger(this::class.java)
 

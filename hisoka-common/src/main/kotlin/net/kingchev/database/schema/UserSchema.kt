@@ -8,7 +8,7 @@ public object UserSchema : Table("user") {
     public val id: Column<Long> = long(name = "id")
     public val username: Column<String> = text(name = "username").uniqueIndex()
     public val isPremium: Column<Boolean> = bool(name = "isPremium")
-    public val locale: Column<String> = varchar(name = "locale", length = 6).default(Language.EN_US.language)
+    public val locale: Column<Language> = enumeration(name = "locale", Language::class).default(Language.EN_US)
 
     override val primaryKey: PrimaryKey = PrimaryKey(id)
 }

@@ -6,7 +6,6 @@ import dev.kord.core.event.interaction.GuildChatInputCommandInteractionCreateEve
 import dev.kord.core.on
 import net.kingchev.event.IListener
 import net.kingchev.service.BotService
-import kotlin.collections.get
 
 public class CommandHandler(kord: Kord) : IListener {
     private val bot = BotService

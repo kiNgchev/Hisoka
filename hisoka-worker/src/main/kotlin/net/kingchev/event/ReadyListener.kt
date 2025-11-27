@@ -2,8 +2,6 @@ package net.kingchev.event
 
 import dev.kord.common.entity.PresenceStatus
 import dev.kord.core.Kord
-import dev.kord.core.entity.Emoji
-import dev.kord.core.entity.StandardEmoji
 import dev.kord.core.event.gateway.ReadyEvent
 import dev.kord.core.on
 import org.slf4j.Logger

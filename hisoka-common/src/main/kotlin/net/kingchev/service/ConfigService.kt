@@ -3,8 +3,8 @@ package net.kingchev.service
 import net.kingchev.extensions.toIntOrDef
 import net.kingchev.model.HisokaConfig
 import net.kingchev.structure.Initializable
-import net.kingchev.structure.delegation.Environment
-import net.kingchev.structure.delegation.Property
+import net.kingchev.structure.delegation.env
+import net.kingchev.structure.delegation.property
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -16,10 +16,10 @@ public object ConfigService : Initializable {
     public override suspend fun initialize() {
         logger.info("Config initialization started")
 
-        val token by Environment("BOT_TOKEN")
-        val totalShards by Property("shards.total")
+        val token: String by env("BOT_TOKEN")
+        val totalShards: Int by property("shards.total") { it.toIntOrDef(1)}
 
-        config = HisokaConfig(token = token, totalShards = totalShards.toIntOrDef(1))
+        config = HisokaConfig(token = token, totalShards = totalShards)
         logger.info("Config initialization completed")
     }
 }

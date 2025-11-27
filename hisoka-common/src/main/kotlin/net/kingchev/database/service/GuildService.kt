@@ -9,18 +9,14 @@ public object GuildService {
 
     public suspend fun changeName(id: Long, name: String) {
         val result = repository.read(id)
-        val model: GuildModel
-        if (result == null) {
-            model = createGuild(id, name)
-            return repository.create(model)
-        }
-        model = result.copy(name = name)
-        repository.update(id, model)
+        val model: GuildModel = result?.copy(name = name) ?: createGuild(id, name)
+
+        repository.upsert(model)
     }
 
     public suspend fun createGuild(id: Long, name: String, description: String? = null, memberCount: Int = 0, roles: List<Long> = emptyList<Long>(), isPremium: Boolean = false): GuildModel {
         val model = GuildModel(id, name, description, memberCount, roles, isPremium)
-        repository.create(model)
+        repository.upsert(model)
         return model
     }
 

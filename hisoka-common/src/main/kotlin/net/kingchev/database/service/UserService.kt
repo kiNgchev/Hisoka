@@ -13,7 +13,7 @@ public object UserService {
     public suspend fun changeUsername(username: String) {
         val result = getUser(username)
         val model = result.copy(username = username)
-        repository.update(model.id, model)
+        repository.upsert(model)
     }
 
     public suspend fun changeUsername(id: Long, username: String) {
@@ -21,10 +21,10 @@ public object UserService {
         val model: UserModel
         if (result == null) {
             model = createUser(id, username)
-            return repository.create(model)
+            return repository.upsert(model)
         }
         model = result.copy(username = username)
-        repository.update(id, model)
+        repository.upsert(model)
     }
 
     @Throws(EntryNotFoundException::class)
@@ -35,22 +35,22 @@ public object UserService {
     @Throws(EntryNotFoundException::class)
     public suspend fun setLocale(id: Long, locale: Language) {
         val result = getUser(id)
-        val model = result.copy(locale = locale.language)
-        repository.update(id, model)
+        val model = result.copy(locale = locale)
+        repository.upsert(model)
     }
 
     @Throws(EntryNotFoundException::class)
-    public suspend fun getLocale(id: Long): String {
+    public suspend fun getLocale(id: Long): Language {
         return getUser(id).locale
     }
 
-    public suspend fun getLocale(id: Long, username: String): String {
+    public suspend fun getLocale(id: Long, username: String): Language {
         return getUserWithCreate(id, username).locale
     }
 
     public suspend fun createUser(id: Long, username: String, isPremium: Boolean = false, locale: Language = Language.EN_US): UserModel {
-        val model = UserModel(id, username, isPremium, locale.language)
-        repository.create(model)
+        val model = UserModel(id, username, isPremium, locale)
+        repository.upsert(model)
         return model
     }
 

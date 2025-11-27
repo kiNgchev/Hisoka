@@ -2,7 +2,6 @@ package net.kingchev.localization.service
 
 import dev.kord.common.Locale
 import net.kingchev.localization.model.Bundle
-import net.kingchev.localization.model.DEFAULT_LOCALE
 import net.kingchev.localization.model.Language
 import java.util.*
 

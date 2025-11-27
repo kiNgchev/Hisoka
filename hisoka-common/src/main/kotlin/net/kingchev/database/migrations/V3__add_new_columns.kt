@@ -2,6 +2,7 @@
 
 package net.kingchev.database.migrations
 
+import MigrationUtils
 import net.kingchev.database.schema.UserSchema
 import org.jetbrains.exposed.sql.ExperimentalDatabaseMigrationApi
 

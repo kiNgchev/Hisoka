@@ -10,13 +10,12 @@ import net.kingchev.model.BotMetadata.ID_LONG
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.selectAll
-import org.jetbrains.exposed.sql.update
 import org.jetbrains.exposed.sql.upsert
 
 public object UserRepository : Repository<UserSchema, UserModel>(UserSchema) {
-    private val default = UserModel(ID_LONG, "Hisoka Morow#6440", true, Language.EN_US.language)
+    private val default = UserModel(ID_LONG, "Hisoka Morow#6440", true, Language.EN_US)
 
-    public override suspend fun create(model: UserModel): Unit = query {
+    public override suspend fun upsert(model: UserModel): Unit = query {
         schema.upsert(schema.id) {
             it[schema.id] = model.id
             it[schema.username] = model.username
@@ -47,15 +46,6 @@ public object UserRepository : Repository<UserSchema, UserModel>(UserSchema) {
                 it[schema.locale]
             ) }
             .singleOrNull()
-    }
-
-    public override suspend fun update(id: Long, model: UserModel): Unit = query {
-        schema.update({ schema.id eq id }) {
-            it[schema.id] = model.id
-            it[schema.username] = model.username
-            it[schema.isPremium] = model.isPremium
-            it[schema.locale] = model.locale
-        }
     }
 
     public override suspend fun delete(id: Long): Unit = query {
