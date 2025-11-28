@@ -6,6 +6,7 @@ import java.io.File
 import java.lang.Thread.currentThread
 import java.net.URL
 import java.util.jar.JarFile
+import java.util.stream.Collectors
 import kotlin.reflect.KClass
 import kotlin.reflect.full.hasAnnotation
 import kotlin.reflect.full.superclasses
@@ -40,56 +41,52 @@ public object ReflectionUtils {
             return collect(loader, packageName, JarFile(jarPath), block)
         }
 
-        return currDir.walkTopDown()
+        val classes = currDir.walkTopDown()
             .filter { it.isFile and it.extension.equals("class", true) }
-            .mapNotNull { file ->
-                try {
-                    val relativePath = currDir.toPath()
-                        .relativize(file.toPath())
-                        .toString()
-                    val name = "$packageName.$relativePath"
-                        .replace(File.separator, ".")
-                        .removeSuffix(".class")
+            .map { file ->
+                val relativePath = currDir.toPath()
+                    .relativize(file.toPath())
+                    .toString()
+                val name = "$packageName.$relativePath"
+                    .replace(File.separator, ".")
+                    .removeSuffix(".class")
+                name
+            }
+            .toList()
+        return loadClasses(loader, classes, block)
+    }
 
-                    loader.loadClass(name).kotlin
+    public inline fun collect(loader: ClassLoader, packageName: String, root: JarFile, crossinline block: (klass: KClass<*>) -> Boolean): HashSet<KClass<*>> {
+        val classes = root.stream()
+            .toList()
+            .filter { it.name.endsWith(".class") }
+            .mapNotNull { file ->
+                val name = file.name
+                    .replace("/", ".")
+                    .removeSuffix(".class")
+
+                if (!name.startsWith(packageName))
+                    return@mapNotNull null
+                name
+            }
+        return loadClasses(loader, classes, block)
+    }
+
+    public inline fun loadClasses(loader: ClassLoader, classes: List<String>, crossinline block: (klass: KClass<*>) -> Boolean): HashSet<KClass<*>>
+        = classes
+            .mapNotNull {
+                try {
+                    loader.loadClass(it).kotlin
                 } catch (_: NoClassDefFoundError) {
-                    logger.error("We have found class [$file], and couldn't load it.")
+                    logger.error("We have found class [$it], and couldn't load it.")
                     return@mapNotNull null
                 } catch (_: ClassNotFoundException) {
-                    logger.error("We could not find class [$file]")
+                    logger.error("We could not find class [$it]")
                     return@mapNotNull null
                 }
             }
             .filter { block(it) }
             .toHashSet()
-    }
-
-    public inline fun collect(loader: ClassLoader, packageName: String, root: JarFile, crossinline block: (klass: KClass<*>) -> Boolean): HashSet<KClass<*>> {
-        val result = hashSetOf<KClass<*>>()
-        root.stream()
-            .filter { it.name.endsWith(".class") }
-            .forEach { file ->
-                try {
-                    val name = file.name
-                        .replace("/", ".")
-                        .removeSuffix(".class")
-
-                    if (!name.startsWith(packageName))
-                        return@forEach
-
-                    val klass = loader.loadClass(name).kotlin
-                    if (block(klass))
-                        result += klass
-                } catch (_: NoClassDefFoundError) {
-                    logger.error("We have found class [$file], and couldn't load it.")
-                    return@forEach
-                } catch (_: ClassNotFoundException) {
-                    logger.error("We could not find class [$file]")
-                    return@forEach
-                }
-            }
-        return result
-    }
 
     public fun getSubclasses(packageName: String = BASE_APP_PACKAGE, klass: KClass<*>): HashSet<KClass<*>> {
         return collect(packageName) { isSuperclassContains(it, klass) }
