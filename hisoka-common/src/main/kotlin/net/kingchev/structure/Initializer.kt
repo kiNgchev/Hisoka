@@ -5,13 +5,15 @@ import net.kingchev.utils.ReflectionUtils
 public object Initializer {
     public suspend fun init() {
         val initializables = ReflectionUtils.getSubclasses<Initializable>()
-        for (initializable in initializables) {
-            try {
-                val instance = initializable.objectInstance
-                instance?.initialize()
-            } catch (e: Exception) {
-                throw InitializeException(e.message, e.cause)
+        initializables
+            .map { initializable ->
+                try {
+                    initializable.objectInstance
+                } catch (e: Exception) {
+                    throw InitializeException(e.message, e.cause)
+                }
             }
-        }
+            .sortedBy { it?.order }
+            .forEach { initializable -> initializable?.initialize() }
     }
 }

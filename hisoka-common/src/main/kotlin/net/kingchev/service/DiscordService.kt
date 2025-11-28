@@ -14,7 +14,7 @@ public class DiscordService {
     private lateinit var kord: Kord
 
     public suspend fun login() {
-        kord = Kord(config!!.token) {
+        kord = Kord(config.token) {
             sharding {
                 Shards(totalShards = config.totalShards)
             }

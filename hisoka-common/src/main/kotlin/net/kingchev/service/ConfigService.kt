@@ -10,8 +10,10 @@ import org.slf4j.LoggerFactory
 
 public object ConfigService : Initializable {
     private val logger: Logger = LoggerFactory.getLogger(ConfigService::class.java)
+    public override val order: Int = 1
 
-    public var config: HisokaConfig? = null
+    public lateinit var config: HisokaConfig
+        private set
 
     public override suspend fun initialize() {
         logger.info("Config initialization started")

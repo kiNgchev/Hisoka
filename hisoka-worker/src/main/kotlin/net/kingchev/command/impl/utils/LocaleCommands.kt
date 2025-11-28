@@ -22,7 +22,7 @@ import kotlin.reflect.full.primaryConstructor
 import kotlin.reflect.full.superclasses
 
 @Suppress("NAME_SHADOWING")
-public class LocaleCommandGroup(private val kord: Kord) : AbstractGroup({ name("locale"); description("The group of commands for managing your bot interface locale") }) {
+public class LocaleCommandGroup(private val kord: Kord) : AbstractGroup({ name("locale"); description("command.locale.group.description") }) {
     override fun build(): GlobalChatInputCreateBuilder.() -> Unit = {
         description = getMessage(data.name, Language.EN_US.code)
         val subcommands = this@LocaleCommandGroup::class.nestedClasses.filter { it.superclasses.contains(AbstractSubCommand::class) }
