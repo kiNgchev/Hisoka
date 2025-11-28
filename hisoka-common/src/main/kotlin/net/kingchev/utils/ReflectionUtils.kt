@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory
 import java.io.File
 import java.lang.Thread.currentThread
 import java.net.URL
+import java.util.jar.JarFile
 import kotlin.reflect.KClass
 import kotlin.reflect.full.hasAnnotation
 import kotlin.reflect.full.superclasses
@@ -33,6 +34,12 @@ public object ReflectionUtils {
     public inline fun collect(loader: ClassLoader, packageName: String, root: URL, crossinline block: (klass: KClass<*>) -> Boolean): HashSet<KClass<*>> {
         val currDir = File(root.path)
 
+        if (root.protocol == "jar") {
+            val path = root.path.split("!")
+            val jarPath = path[0].replace("file:/", "")
+            return collect(loader, packageName, JarFile(jarPath), block)
+        }
+
         return currDir.walkTopDown()
             .filter { it.isFile and it.extension.equals("class", true) }
             .mapNotNull { file ->
@@ -57,13 +64,42 @@ public object ReflectionUtils {
             .toHashSet()
     }
 
+    public inline fun collect(loader: ClassLoader, packageName: String, root: JarFile, crossinline block: (klass: KClass<*>) -> Boolean): HashSet<KClass<*>> {
+        val result = hashSetOf<KClass<*>>()
+        root.stream()
+            .filter { it.name.endsWith(".class") }
+            .forEach { file ->
+                try {
+                    val name = file.name
+                        .replace("/", ".")
+                        .removeSuffix(".class")
+
+                    if (!name.startsWith(packageName))
+                        return@forEach
+
+                    val klass = loader.loadClass(name).kotlin
+                    if (block(klass))
+                        result += klass
+                } catch (_: NoClassDefFoundError) {
+                    logger.error("We have found class [$file], and couldn't load it.")
+                    return@forEach
+                } catch (_: ClassNotFoundException) {
+                    logger.error("We could not find class [$file]")
+                    return@forEach
+                }
+            }
+        return result
+    }
+
     public fun getSubclasses(packageName: String = BASE_APP_PACKAGE, klass: KClass<*>): HashSet<KClass<*>> {
         return collect(packageName) { isSuperclassContains(it, klass) }
     }
 
     @Suppress("UNCHECKED_CAST")
     public inline fun <reified T : Any> getSubclasses(packageName: String = BASE_APP_PACKAGE): HashSet<KClass<T>> {
-        return collect(packageName) { isSuperclassContains(it, T::class) }.map { it as KClass<T> }.toHashSet()
+        return collect(packageName) { isSuperclassContains(it, T::class) }
+            .map { it as KClass<T> }
+            .toHashSet()
     }
 
     public inline fun <reified A : Annotation> getClassesWithAnnotation(packageName: String = BASE_APP_PACKAGE): HashSet<KClass<*>> {

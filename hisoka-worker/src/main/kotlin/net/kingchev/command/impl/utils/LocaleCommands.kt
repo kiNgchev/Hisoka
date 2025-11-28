@@ -87,7 +87,7 @@ public class LocaleCommandGroup(private val kord: Kord) : AbstractGroup({ name("
             val interaction = event.interaction.deferPublicResponse()
 
             val embed = EmbedBuilder()
-            embed.description = getMessage("command.locale.view.description", locale, parse(locale).nativeName)
+            embed.description = getMessage("command.locale.view.description", locale, locale.nativeName)
             embed.color = Colors.Red
 
             interaction.respond {
