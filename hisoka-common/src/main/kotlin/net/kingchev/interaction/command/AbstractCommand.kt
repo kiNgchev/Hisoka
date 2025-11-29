@@ -1,8 +1,8 @@
-package net.kingchev.command.model
+package net.kingchev.interaction.command
 
 import dev.kord.rest.builder.interaction.GlobalChatInputCreateBuilder
-import net.kingchev.command.model.builder.CommandBuilder
-import net.kingchev.command.model.data.CommandData
+import net.kingchev.interaction.command.builder.CommandBuilder
+import net.kingchev.interaction.command.data.CommandData
 import net.kingchev.localization.model.Language
 import net.kingchev.localization.service.LocaleService
 import org.slf4j.Logger

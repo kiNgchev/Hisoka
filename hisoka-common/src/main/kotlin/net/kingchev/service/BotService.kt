@@ -1,10 +1,14 @@
 package net.kingchev.service
 
 import dev.kord.core.Kord
-import net.kingchev.command.model.AbstractCommand
-import net.kingchev.command.model.AbstractGroup
-import net.kingchev.command.model.ICommand
 import net.kingchev.event.IListener
+import net.kingchev.interaction.button.AbstractButton
+import net.kingchev.interaction.command.AbstractCommand
+import net.kingchev.interaction.command.AbstractGroup
+import net.kingchev.interaction.command.ICommand
+import net.kingchev.interaction.modal.AbstractModal
+import net.kingchev.interaction.selectmenu.AbstractSelectMenu
+import net.kingchev.service.BotService.logger
 import net.kingchev.utils.ReflectionUtils.getSubclasses
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -13,7 +17,12 @@ import kotlin.reflect.full.primaryConstructor
 public object BotService {
     public val logger: Logger = LoggerFactory.getLogger(BotService::class.java)
     public var commands: MutableMap<String, ICommand> = mutableMapOf()
+        private set
+    public var components: ComponentRegistrar = ComponentRegistrar
+        private set
+
     public var groups: MutableMap<String, AbstractGroup> = mutableMapOf()
+        private set
 
     public fun registerEvents(kord: Kord) {
         getSubclasses<IListener>("net.kingchev.event").forEach {
@@ -70,6 +79,53 @@ public object BotService {
             if (!groups.containsKey(it.name) and !commands.containsKey(it.name)) {
                 it.delete()
                 logger.info("Command or commands group [${it.name}] has been deleted")
+            }
+        }
+    }
+}
+
+public object ComponentRegistrar {
+    public var buttons: MutableMap<String, AbstractButton> = mutableMapOf()
+        private set
+    public var modals: MutableMap<String, AbstractModal> = mutableMapOf()
+        private set
+    public var selects: MutableMap<String, AbstractSelectMenu> = mutableMapOf()
+        private set
+
+    public fun registerButtons() {
+        getSubclasses<AbstractButton>().forEach {
+            try {
+                val instance = it.primaryConstructor?.call() ?: return@forEach
+                buttons[instance.data.id] = instance
+                logger.info("Button [${it.simpleName}] has been registered")
+            } catch (_: IllegalArgumentException) {
+                logger.error("Error occurred while button [${it.simpleName}] be registered")
+            }
+        }
+    }
+
+    public fun registerModals() {
+        getSubclasses<AbstractModal>().forEach {
+            try {
+                val instance = it.primaryConstructor?.call() ?: return@forEach
+                modals[instance.data.id] = instance
+                logger.info("Modal [${it.simpleName}] has been registered")
+            } catch (_: IllegalArgumentException) {
+                logger.error("Error occurred while modal [${it.simpleName}] be registered")
+            }
+        }
+    }
+
+    public fun registerSelects() {
+        getSubclasses<AbstractSelectMenu>().forEach {
+            try {
+                val instance = it.primaryConstructor?.call() ?: return@forEach
+                instance.data.components.forEach { component ->
+                    selects[component.customId] = instance
+                }
+                logger.info("Select menu [${it.simpleName}] has been registered")
+            } catch (_: IllegalArgumentException) {
+                logger.error("Error occurred while select menu [${it.simpleName}] be registered")
             }
         }
     }

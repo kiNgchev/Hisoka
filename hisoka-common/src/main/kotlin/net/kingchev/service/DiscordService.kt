@@ -23,6 +23,9 @@ public class DiscordService {
         bot.registerEvents(kord)
         bot.registerCommands(kord)
         bot.registerGroupCommands(kord)
+        bot.components.registerButtons()
+        bot.components.registerModals()
+        bot.components.registerSelects()
 
         kord.login() {
             Intent.entries.forEach { intents += it }

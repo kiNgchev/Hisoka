@@ -1,6 +1,6 @@
-package net.kingchev.command.model.builder
+package net.kingchev.interaction.command.builder
 
-import net.kingchev.command.model.data.GroupData
+import net.kingchev.interaction.command.data.GroupData
 
 public class GroupBuilder {
     private var name: String = ""

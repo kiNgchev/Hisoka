@@ -6,7 +6,6 @@ import java.io.File
 import java.lang.Thread.currentThread
 import java.net.URL
 import java.util.jar.JarFile
-import java.util.stream.Collectors
 import kotlin.reflect.KClass
 import kotlin.reflect.full.hasAnnotation
 import kotlin.reflect.full.superclasses

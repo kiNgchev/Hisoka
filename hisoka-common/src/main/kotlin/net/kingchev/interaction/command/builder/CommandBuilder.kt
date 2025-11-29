@@ -1,6 +1,6 @@
-package net.kingchev.command.model.builder
+package net.kingchev.interaction.command.builder
 
-import net.kingchev.command.model.data.CommandData
+import net.kingchev.interaction.command.data.CommandData
 
 public class CommandBuilder {
     private var key: String = ""

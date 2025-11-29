@@ -6,10 +6,10 @@ import dev.kord.core.event.interaction.GuildChatInputCommandInteractionCreateEve
 import dev.kord.rest.builder.interaction.GlobalChatInputCreateBuilder
 import dev.kord.rest.builder.interaction.string
 import dev.kord.rest.builder.message.EmbedBuilder
-import net.kingchev.command.model.AbstractCommand
 import net.kingchev.database.exception.EntryNotFoundException
 import net.kingchev.database.service.UserService
 import net.kingchev.extensions.idLong
+import net.kingchev.interaction.command.AbstractCommand
 import net.kingchev.localization.model.Language
 import net.kingchev.localization.service.LocaleService
 import net.kingchev.localization.service.getMessage

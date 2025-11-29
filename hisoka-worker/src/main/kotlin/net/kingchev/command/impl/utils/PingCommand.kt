@@ -6,7 +6,7 @@ import dev.kord.core.behavior.interaction.response.respond
 import dev.kord.core.event.interaction.GuildChatInputCommandInteractionCreateEvent
 import dev.kord.rest.builder.interaction.GlobalChatInputCreateBuilder
 import dev.kord.rest.builder.message.EmbedBuilder
-import net.kingchev.command.model.AbstractCommand
+import net.kingchev.interaction.command.AbstractCommand
 import net.kingchev.localization.model.Language
 import net.kingchev.localization.service.LocaleService
 import net.kingchev.localization.service.getMessage

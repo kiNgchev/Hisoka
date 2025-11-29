@@ -1,4 +1,4 @@
-package net.kingchev.command.model
+package net.kingchev.interaction.command
 
 import dev.kord.core.event.interaction.GuildChatInputCommandInteractionCreateEvent
 import org.slf4j.Logger

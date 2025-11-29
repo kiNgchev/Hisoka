@@ -8,11 +8,11 @@ import dev.kord.rest.builder.interaction.SubCommandBuilder
 import dev.kord.rest.builder.interaction.string
 import dev.kord.rest.builder.interaction.subCommand
 import dev.kord.rest.builder.message.EmbedBuilder
-import net.kingchev.command.model.AbstractGroup
-import net.kingchev.command.model.AbstractSubCommand
 import net.kingchev.database.exception.EntryNotFoundException
 import net.kingchev.database.service.UserService
 import net.kingchev.extensions.idLong
+import net.kingchev.interaction.command.AbstractGroup
+import net.kingchev.interaction.command.AbstractSubCommand
 import net.kingchev.localization.model.Language
 import net.kingchev.localization.model.parse
 import net.kingchev.localization.service.LocaleService

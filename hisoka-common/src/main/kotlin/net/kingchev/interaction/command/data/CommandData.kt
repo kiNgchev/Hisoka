@@ -1,4 +1,4 @@
-package net.kingchev.command.model.data
+package net.kingchev.interaction.command.data
 
 public data class CommandData(
     public val key: String,

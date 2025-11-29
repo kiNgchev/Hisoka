@@ -1,8 +1,8 @@
-package net.kingchev.command.model
+package net.kingchev.interaction.command
 
 import dev.kord.rest.builder.interaction.GlobalChatInputCreateBuilder
-import net.kingchev.command.model.builder.GroupBuilder
-import net.kingchev.command.model.data.GroupData
+import net.kingchev.interaction.command.builder.GroupBuilder
+import net.kingchev.interaction.command.data.GroupData
 import org.slf4j.LoggerFactory
 
 public abstract class AbstractGroup(builder: GroupBuilder.() -> Unit) {
