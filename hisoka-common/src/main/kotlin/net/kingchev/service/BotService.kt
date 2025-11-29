@@ -1,13 +1,13 @@
 package net.kingchev.service
 
 import dev.kord.core.Kord
-import net.kingchev.event.IListener
-import net.kingchev.interaction.button.AbstractButton
-import net.kingchev.interaction.command.AbstractCommand
-import net.kingchev.interaction.command.AbstractGroup
-import net.kingchev.interaction.command.ICommand
-import net.kingchev.interaction.modal.AbstractModal
-import net.kingchev.interaction.selectmenu.AbstractSelectMenu
+import net.kingchev.dsl.event.IListener
+import net.kingchev.dsl.button.AbstractButton
+import net.kingchev.dsl.command.AbstractCommand
+import net.kingchev.dsl.command.AbstractGroup
+import net.kingchev.dsl.command.ICommand
+import net.kingchev.dsl.modal.AbstractModal
+import net.kingchev.dsl.selectmenu.AbstractSelectMenu
 import net.kingchev.service.BotService.logger
 import net.kingchev.utils.ReflectionUtils.getSubclasses
 import org.slf4j.Logger
@@ -25,7 +25,7 @@ public object BotService {
         private set
 
     public fun registerEvents(kord: Kord) {
-        getSubclasses<IListener>("net.kingchev.event").forEach {
+        getSubclasses<IListener>("net.kingchev.event", "net.kingchev.handler").forEach {
             try {
                 it.primaryConstructor?.call(kord)
                 logger.info("Listener [${it.simpleName}] has been registered")

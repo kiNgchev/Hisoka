@@ -14,10 +14,10 @@ import dev.kord.rest.builder.message.actionRow
 import net.kingchev.extensions.interactionButton
 import net.kingchev.extensions.modal
 import net.kingchev.extensions.select
-import net.kingchev.interaction.button.AbstractButton
-import net.kingchev.interaction.command.AbstractCommand
-import net.kingchev.interaction.modal.AbstractModal
-import net.kingchev.interaction.selectmenu.AbstractSelectMenu
+import net.kingchev.dsl.button.AbstractButton
+import net.kingchev.dsl.command.AbstractCommand
+import net.kingchev.dsl.modal.AbstractModal
+import net.kingchev.dsl.selectmenu.AbstractSelectMenu
 import net.kingchev.model.Colors
 
 public class TestCommand(private val kord: Kord) : AbstractCommand({

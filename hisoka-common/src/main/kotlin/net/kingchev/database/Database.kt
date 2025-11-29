@@ -33,7 +33,7 @@ public object DatabaseInitializer : Initializable {
         transaction(connection) {
             SchemaUtils.setSchema(Schema("public"))
             for (schema in schemas) {
-                SchemaUtils.createMissingTablesAndColumns(schema.objectInstance ?: throw IllegalStateException("Schema ${schema.qualifiedName} is not object"))
+                MigrationUtils.statementsRequiredForDatabaseMigration(schema.objectInstance ?: throw IllegalStateException("Schema ${schema.qualifiedName} is not object"))
             }
         }
         logger.info("Database has been initialized")

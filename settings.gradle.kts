@@ -12,3 +12,6 @@ include("hisoka-worker")
 //include("hisoka-modules")
 //include("hisoka-modules:hisoka-moderation")
 //findProject(":hisoka-modules:hisoka-moderation")?.name = "hisoka-moderation"
+
+include("hisoka-dsl")
+include("hisoka-shared")

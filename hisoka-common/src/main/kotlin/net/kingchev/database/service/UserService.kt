@@ -3,8 +3,8 @@ package net.kingchev.database.service
 import net.kingchev.database.exception.EntryNotFoundException
 import net.kingchev.database.model.UserModel
 import net.kingchev.database.repository.UserRepository
-import net.kingchev.localization.model.Language
-import net.kingchev.localization.model.parse
+import net.kingchev.localization.Language
+import net.kingchev.localization.parse
 
 public object UserService {
     private val repository = UserRepository

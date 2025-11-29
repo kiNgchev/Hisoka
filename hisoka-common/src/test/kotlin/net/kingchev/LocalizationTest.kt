@@ -1,6 +1,6 @@
 package net.kingchev
 
-import net.kingchev.localization.service.LocaleService
+import net.kingchev.localization.LocaleService
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 

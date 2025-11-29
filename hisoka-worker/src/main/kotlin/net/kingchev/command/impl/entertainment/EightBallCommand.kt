@@ -9,10 +9,10 @@ import dev.kord.rest.builder.message.EmbedBuilder
 import net.kingchev.database.exception.EntryNotFoundException
 import net.kingchev.database.service.UserService
 import net.kingchev.extensions.idLong
-import net.kingchev.interaction.command.AbstractCommand
-import net.kingchev.localization.model.Language
-import net.kingchev.localization.service.LocaleService
-import net.kingchev.localization.service.getMessage
+import net.kingchev.dsl.command.AbstractCommand
+import net.kingchev.localization.Language
+import net.kingchev.localization.LocaleService
+import net.kingchev.localization.getMessage
 import net.kingchev.model.Colors
 
 public class EightBallCommand(private val kord: Kord) : AbstractCommand({

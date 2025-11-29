@@ -4,3 +4,7 @@ plugins {
     `kord-conventions`
     `jmh-conventions`
 }
+
+dependencies {
+    api(project(":hisoka-dsl"))
+}

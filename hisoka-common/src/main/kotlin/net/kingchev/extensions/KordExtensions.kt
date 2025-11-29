@@ -9,9 +9,9 @@ import dev.kord.core.entity.User
 import dev.kord.core.entity.channel.Channel
 import dev.kord.rest.builder.component.ActionRowBuilder
 import dev.kord.rest.builder.component.ButtonBuilder
-import net.kingchev.interaction.button.AbstractButton
-import net.kingchev.interaction.modal.AbstractModal
-import net.kingchev.interaction.selectmenu.AbstractSelectMenu
+import net.kingchev.dsl.button.AbstractButton
+import net.kingchev.dsl.modal.AbstractModal
+import net.kingchev.dsl.selectmenu.AbstractSelectMenu
 
 public val User.idLong: Long get() = Convertor.toLong(this.id)
 

@@ -1,6 +1,6 @@
 package net.kingchev.database.schema
 
-import net.kingchev.localization.model.Language
+import net.kingchev.localization.Language
 import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.Table
 

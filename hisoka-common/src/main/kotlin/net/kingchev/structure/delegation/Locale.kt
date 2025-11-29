@@ -2,10 +2,10 @@
 
 package net.kingchev.structure.delegation
 
-import net.kingchev.localization.model.DEFAULT_LOCALE
-import net.kingchev.localization.model.Language
-import net.kingchev.localization.model.parse
-import net.kingchev.localization.service.getMessage
+import net.kingchev.localization.DEFAULT_LOCALE
+import net.kingchev.localization.Language
+import net.kingchev.localization.parse
+import net.kingchev.localization.getMessage
 import kotlin.reflect.KProperty
 
 public class Locale(private val key: String, private val locale: Language) {

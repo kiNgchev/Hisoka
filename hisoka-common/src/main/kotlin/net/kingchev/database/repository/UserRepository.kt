@@ -5,7 +5,7 @@ package net.kingchev.database.repository
 import net.kingchev.database.model.UserModel
 import net.kingchev.database.query
 import net.kingchev.database.schema.UserSchema
-import net.kingchev.localization.model.Language
+import net.kingchev.localization.Language
 import net.kingchev.model.BotMetadata.ID_LONG
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.deleteWhere

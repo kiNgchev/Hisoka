@@ -2,8 +2,8 @@
 kotlin = "2.2.21"
 kotlinx-coroutines = "1.9.0"
 kotlinx-serialization = "1.7.3"
-exposed = "0.56.0"
-postgres = "42.7.4"
+exposed = "0.61.0"
+postgres = "42.7.8"
 kord = "0.17.0"
 slf4j = "2.0.16"
 logback = "1.5.12"
@@ -32,11 +32,6 @@ kord-gateway = { group = "dev.kord", name = "kord-gateway", version.ref = "kord"
 # logging 
 slf4j-api = { group = "org.slf4j", name = "slf4j-api", version.ref = "slf4j" }
 logback-core = { group = "ch.qos.logback", name = "logback-classic", version.ref = "logback"}
-
-# plugins dependency
-kotlin-jvm = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
-kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
-jmh = { module = "me.champeau.jmh:me.champeau.jmh.gradle.plugin", version = "0.7.3" }
 
 # jmh
 jmh-core = { module = "org.openjdk.jmh:jmh-core", version.ref = "jmh" }

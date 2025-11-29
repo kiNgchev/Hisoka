@@ -4,6 +4,7 @@ import dev.kord.common.entity.PresenceStatus
 import dev.kord.core.Kord
 import dev.kord.core.event.gateway.ReadyEvent
 import dev.kord.core.on
+import net.kingchev.dsl.event.IListener
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 

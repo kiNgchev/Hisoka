@@ -6,10 +6,10 @@ import dev.kord.core.behavior.interaction.response.respond
 import dev.kord.core.event.interaction.GuildChatInputCommandInteractionCreateEvent
 import dev.kord.rest.builder.interaction.GlobalChatInputCreateBuilder
 import dev.kord.rest.builder.message.EmbedBuilder
-import net.kingchev.interaction.command.AbstractCommand
-import net.kingchev.localization.model.Language
-import net.kingchev.localization.service.LocaleService
-import net.kingchev.localization.service.getMessage
+import net.kingchev.dsl.command.AbstractCommand
+import net.kingchev.localization.Language
+import net.kingchev.localization.LocaleService
+import net.kingchev.localization.getMessage
 import net.kingchev.model.BotMetadata
 import net.kingchev.model.Colors
 import java.util.concurrent.atomic.AtomicLong
