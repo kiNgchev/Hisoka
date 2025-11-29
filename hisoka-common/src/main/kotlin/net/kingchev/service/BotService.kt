@@ -25,7 +25,7 @@ public object BotService {
         private set
 
     public fun registerEvents(kord: Kord) {
-        getSubclasses<IListener>("net.kingchev.event", "net.kingchev.handler").forEach {
+        getSubclasses<IListener>("net.kingchev.event", "net.kingchev.handler", "net.kingchev.command").forEach {
             try {
                 it.primaryConstructor?.call(kord)
                 logger.info("Listener [${it.simpleName}] has been registered")
