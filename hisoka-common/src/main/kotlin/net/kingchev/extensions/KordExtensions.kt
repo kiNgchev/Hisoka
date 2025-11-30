@@ -33,7 +33,7 @@ private object Convertor {
     fun toLong(id: Snowflake): Long = id.value.toLong()
 }
 
-public fun ActionRowBuilder.interactionButton(button: AbstractButton) {
+public fun ActionRowBuilder.button(button: AbstractButton) {
     components += ButtonBuilder.InteractionButtonBuilder(button.data.style, button.data.id)
         .apply {
             label = button.data.label

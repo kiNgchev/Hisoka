@@ -11,7 +11,7 @@ import dev.kord.core.event.interaction.GuildSelectMenuInteractionCreateEvent
 import dev.kord.rest.builder.component.option
 import dev.kord.rest.builder.message.EmbedBuilder
 import dev.kord.rest.builder.message.actionRow
-import net.kingchev.extensions.interactionButton
+import net.kingchev.extensions.button
 import net.kingchev.extensions.modal
 import net.kingchev.extensions.select
 import net.kingchev.dsl.button.AbstractButton
@@ -36,7 +36,7 @@ public class TestCommand(private val kord: Kord) : AbstractCommand({
         interaction.respond {
             embeds = mutableListOf(embed)
             actionRow {
-                interactionButton(TestButton())
+                button(TestButton())
             }
             actionRow {
                 select(TestSelect())
