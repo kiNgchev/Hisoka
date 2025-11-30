@@ -6,32 +6,24 @@ import dev.kord.core.event.interaction.GuildChatInputCommandInteractionCreateEve
 import dev.kord.rest.builder.interaction.GlobalChatInputCreateBuilder
 import dev.kord.rest.builder.interaction.SubCommandBuilder
 import dev.kord.rest.builder.interaction.string
-import dev.kord.rest.builder.interaction.subCommand
 import dev.kord.rest.builder.message.EmbedBuilder
 import net.kingchev.database.exception.EntryNotFoundException
 import net.kingchev.database.service.UserService
 import net.kingchev.extensions.idLong
 import net.kingchev.dsl.command.AbstractGroup
 import net.kingchev.dsl.command.AbstractSubCommand
+import net.kingchev.extensions.subCommands
 import net.kingchev.localization.Language
 import net.kingchev.localization.parse
 import net.kingchev.localization.LocaleService
 import net.kingchev.localization.getMessage
 import net.kingchev.model.Colors
-import kotlin.reflect.full.primaryConstructor
-import kotlin.reflect.full.superclasses
 
 @Suppress("NAME_SHADOWING")
 public class LocaleCommandGroup(private val kord: Kord) : AbstractGroup({ name("locale"); description("command.locale.group.description") }) {
     override fun build(): GlobalChatInputCreateBuilder.() -> Unit = {
         description = getMessage(data.name, Language.EN_US.code)
-        val subcommands = this@LocaleCommandGroup::class.nestedClasses.filter { it.superclasses.contains(AbstractSubCommand::class) }
-        for (subcommand in subcommands) {
-            val subcommand = subcommand.primaryConstructor?.call(kord) as AbstractSubCommand
-            val data = subcommand.data
-            subCommand(data.key, data.description, subcommand.build())
-            commands[data.key] = subcommand
-        }
+        subCommands(kord, this@LocaleCommandGroup)
     }
 
     public class SetLocaleCommand(private val kord: Kord) : AbstractSubCommand({ key("set");description("command.locale.set.metadata.description") }) {
