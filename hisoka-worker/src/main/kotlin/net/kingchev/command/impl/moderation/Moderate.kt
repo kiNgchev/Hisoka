@@ -1,10 +1,6 @@
 package net.kingchev.command.impl.moderation
 
-import dev.kord.common.entity.ButtonStyle
-import dev.kord.common.entity.Permission
-import dev.kord.common.entity.Permissions
-import dev.kord.common.entity.Snowflake
-import dev.kord.common.entity.TextInputStyle
+import dev.kord.common.entity.*
 import dev.kord.core.Kord
 import dev.kord.core.behavior.ban
 import dev.kord.core.behavior.edit
@@ -20,16 +16,13 @@ import dev.kord.rest.builder.message.EmbedBuilder
 import dev.kord.rest.builder.message.actionRow
 import net.kingchev.context.ContextHolder
 import net.kingchev.context.InteractionContext
-import net.kingchev.database.exception.EntryNotFoundException
-import net.kingchev.database.service.UserService
+import net.kingchev.context.getContext
+import net.kingchev.database.service.getLocale
 import net.kingchev.dsl.button.AbstractButton
 import net.kingchev.dsl.command.AbstractCommand
 import net.kingchev.dsl.modal.AbstractModal
-import net.kingchev.extensions.button
-import net.kingchev.extensions.idLong
-import net.kingchev.extensions.modal
-import net.kingchev.localization.Language
-import net.kingchev.localization.LocaleService
+import net.kingchev.extensions.*
+import net.kingchev.localization.createDiscordMessage
 import net.kingchev.localization.getMessage
 import net.kingchev.model.Colors
 import net.kingchev.utils.parseTime
@@ -41,23 +34,25 @@ public class Moderate(private val kord: Kord) : AbstractCommand({
     description("command.moderate.metadata.description")
 }) {
     private val holder = ContextHolder
+
+    
     override fun build(): GlobalChatInputCreateBuilder.() -> Unit = {
         this.apply(super.build())
         defaultMemberPermissions = Permissions(Permission.Administrator)
         user(
-            getMessage("command.moderate.metadata.params.target.name", Language.EN_US),
-            getMessage("command.moderate.metadata.params.target.description", Language.EN_US),
+            getMessage("command.moderate.metadata.params.target.name"),
+            getMessage("command.moderate.metadata.params.target.description"),
         ) {
             required = true
-            nameLocalizations = LocaleService.createDiscordMessage("command.moderate.metadata.params.target.name")
-            descriptionLocalizations = LocaleService.createDiscordMessage("command.moderate.metadata.params.target.description")
+            nameLocalizations = createDiscordMessage("command.moderate.metadata.params.target.name")
+            descriptionLocalizations = createDiscordMessage("command.moderate.metadata.params.target.description")
         }
         string(
-            getMessage("command.moderate.metadata.params.reason.name", Language.EN_US),
-            getMessage("command.moderate.metadata.params.reason.description", Language.EN_US),
+            getMessage("command.moderate.metadata.params.reason.name"),
+            getMessage("command.moderate.metadata.params.reason.description"),
         ) {
-            nameLocalizations = LocaleService.createDiscordMessage("command.moderate.metadata.params.reason.name")
-            descriptionLocalizations = LocaleService.createDiscordMessage("command.moderate.metadata.params.reason.description")
+            nameLocalizations = createDiscordMessage("command.moderate.metadata.params.reason.name")
+            descriptionLocalizations = createDiscordMessage("command.moderate.metadata.params.reason.description")
         }
     }
 
@@ -65,18 +60,14 @@ public class Moderate(private val kord: Kord) : AbstractCommand({
 
     override suspend fun execute(event: GuildChatInputCommandInteractionCreateEvent) {
         val interaction = event.interaction.deferPublicResponse()
-        val locale = try {
-            UserService.getLocale(event.interaction.user.idLong)
-        } catch (_: EntryNotFoundException) {
-            val user = event.interaction.user
-            val entry = UserService.createUser(user.idLong, user.username)
-            entry.locale
-        }
+        val locale = getLocale(event.interaction)
 
+        val targetId: Snowflake = event.getOption(getMessage("command.moderate.metadata.params.target.name"))
+            ?: return
+        val reason: String? = event.getOption(getMessage("command.moderate.metadata.params.reason.name"))
 
-        val target = event.interaction.getGuild().getMember(event.interaction.command.options[getMessage("command.moderate.metadata.params.target.name", Language.EN_US)]?.value as Snowflake)
+        val target = event.interaction.getGuild().getMember(targetId)
         val moderator = event.interaction.user
-        val reason = event.interaction.command.options[getMessage("command.moderate.metadata.params.reason.name", Language.EN_US)]?.value as? String
 
         val embed = EmbedBuilder()
         embed.field { name = getMessage("command.moderate.moderator", locale); value = moderator.mention}
@@ -111,14 +102,9 @@ public class MuteButton : AbstractButton({
     id("mute_button"); label("Mute")
 }) {
     override suspend fun execute(event: GuildButtonInteractionCreateEvent) {
-        val context: InteractionContext? = try {
-            ContextHolder["moderate_${event.interaction.getGuild().idLong}_${event.interaction.user.idLong}"]
-        } catch (_: Exception) {
-            null
-        }
-
-        if (context == null)
-            return
+        val context: InteractionContext =
+            getContext("moderate_${event.interaction.getGuild().idLong}_${event.interaction.user.idLong}")
+                ?: return
 
         event.interaction.modal(MuteModal())
     }
@@ -133,23 +119,27 @@ public class MuteModal : AbstractModal({
     override suspend fun execute(event: GuildModalSubmitInteractionCreateEvent) {
         val interaction = event.interaction.deferEphemeralResponse()
 
-        val context: InteractionContext? = try {
-            ContextHolder["moderate_${event.interaction.getGuild().idLong}_${event.interaction.user.idLong}"]
-        } catch (_: Exception) {
-            null
-        }
-
-        if (context == null)
-            return
+        val context: InteractionContext =
+            getContext("moderate_${event.interaction.getGuild().idLong}_${event.interaction.user.idLong}")
+                ?: return
 
         val target = context.objects[0] as Member
         val reason = if (context.objects.size > 1) {
             context.objects[1] as? String
         } else null
-        val time = event.interaction.textInputs["time"]?.value as String
+
+        val time: String = event.getInput("time") ?: return
+        val parsedTime = try {
+            parseTime(time)
+        } catch (_: IllegalArgumentException) {
+            interaction.respond {
+                content = getMessage("command.moderate.moderator.invalid.time", context.userLocale)
+            }
+            return
+        }
 
         target.edit {
-            communicationDisabledUntil = Clock.System.now() + parseTime(time)
+            communicationDisabledUntil = Clock.System.now() + parsedTime
             this.reason = reason
         }
         interaction.respond {
@@ -162,14 +152,9 @@ public class KickButton : AbstractButton({
     id("kick_button"); label("Kick"); style(ButtonStyle.Success)
 }) {
     override suspend fun execute(event: GuildButtonInteractionCreateEvent) {
-        val context: InteractionContext? = try {
-            ContextHolder["moderate_${event.interaction.getGuild().idLong}_${event.interaction.user.idLong}"]
-        } catch (_: Exception) {
-            null
-        }
-
-        if (context == null)
-            return
+        val context: InteractionContext =
+            getContext("moderate_${event.interaction.getGuild().idLong}_${event.interaction.user.idLong}")
+                ?: return
 
         val target = context.objects[0] as Member
         val reason = if (context.objects.size > 1) {
@@ -185,14 +170,8 @@ public class BanButton : AbstractButton({
     id("ban_button"); label("Ban"); style(ButtonStyle.Danger)
 }) {
     override suspend fun execute(event: GuildButtonInteractionCreateEvent) {
-        val context: InteractionContext? = try {
-            ContextHolder["moderate_${event.interaction.getGuild().idLong}_${event.interaction.user.idLong}"]
-        } catch (_: Exception) {
-            null
-        }
-
-        if (context == null)
-            return
+        val context: InteractionContext =
+            getContext("moderate_${event.interaction.getGuild().idLong}_${event.interaction.user.idLong}") ?: return
 
         val target = context.objects[0] as Member
         val reason = if (context.objects.size > 1) {

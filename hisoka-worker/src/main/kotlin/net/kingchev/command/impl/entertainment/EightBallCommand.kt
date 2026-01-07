@@ -6,12 +6,9 @@ import dev.kord.core.event.interaction.GuildChatInputCommandInteractionCreateEve
 import dev.kord.rest.builder.interaction.GlobalChatInputCreateBuilder
 import dev.kord.rest.builder.interaction.string
 import dev.kord.rest.builder.message.EmbedBuilder
-import net.kingchev.database.exception.EntryNotFoundException
-import net.kingchev.database.service.UserService
-import net.kingchev.extensions.idLong
+import net.kingchev.database.service.getLocale
 import net.kingchev.dsl.command.AbstractCommand
-import net.kingchev.localization.Language
-import net.kingchev.localization.LocaleService
+import net.kingchev.localization.createDiscordMessage
 import net.kingchev.localization.getMessage
 import net.kingchev.model.Colors
 
@@ -21,12 +18,12 @@ public class EightBallCommand(private val kord: Kord) : AbstractCommand({
     override fun build(): GlobalChatInputCreateBuilder.() -> Unit = {
         this.apply(super.build())
         string(
-            getMessage("command.eightball.metadata.params.ask.name", Language.EN_US),
-            getMessage("command.eightball.metadata.params.ask.description", Language.EN_US),
+            getMessage("command.eightball.metadata.params.ask.name"),
+            getMessage("command.eightball.metadata.params.ask.description"),
         ) {
             required = true
-            nameLocalizations = LocaleService.createDiscordMessage("command.eightball.metadata.params.ask.name")
-            descriptionLocalizations = LocaleService.createDiscordMessage("command.eightball.metadata.params.ask.description")
+            nameLocalizations = createDiscordMessage("command.eightball.metadata.params.ask.name")
+            descriptionLocalizations = createDiscordMessage("command.eightball.metadata.params.ask.description")
         }
     }
 
@@ -34,13 +31,7 @@ public class EightBallCommand(private val kord: Kord) : AbstractCommand({
 
     override suspend fun execute(event: GuildChatInputCommandInteractionCreateEvent) {
         val interaction = event.interaction.deferEphemeralResponse()
-        val locale = try {
-            UserService.getLocale(event.interaction.user.idLong)
-        } catch (_: EntryNotFoundException) {
-            val user = event.interaction.user
-            val entry = UserService.createUser(user.idLong, user.username)
-            entry.locale
-        }
+        val locale = getLocale(event.interaction)
 
         val choices = arrayOf(
             getMessage("command.eightball.choices.yes", locale),

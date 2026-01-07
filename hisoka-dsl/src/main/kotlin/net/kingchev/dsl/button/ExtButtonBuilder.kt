@@ -2,7 +2,6 @@ package net.kingchev.dsl.button
 
 import dev.kord.common.entity.ButtonStyle
 import dev.kord.common.entity.DiscordPartialEmoji
-import net.kingchev.dsl.button.ButtonData
 
 public class ExtButtonBuilder {
     private var id: String = ""

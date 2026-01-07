@@ -45,6 +45,9 @@ public object LocaleService {
             .toMap() as MutableMap
 }
 
+public fun createDiscordMessage(key: String): MutableMap<Locale, String> = createDiscordMessage(key)
+
+public fun getMessage(key: String): String = LocaleService.getMessage(key, DEFAULT_LOCALE.language)
 public fun getMessage(key: String, locale: Language): String = LocaleService.getMessage(key, locale.language)
 public fun getMessage(key: String, locale: String): String = LocaleService.getMessage(key, locale)
 

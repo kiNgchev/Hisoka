@@ -1,8 +1,10 @@
 package net.kingchev.database.service
 
+import dev.kord.core.entity.interaction.Interaction
 import net.kingchev.database.exception.EntryNotFoundException
 import net.kingchev.database.model.UserModel
 import net.kingchev.database.repository.UserRepository
+import net.kingchev.extensions.idLong
 import net.kingchev.localization.Language
 import net.kingchev.localization.parse
 
@@ -68,3 +70,12 @@ public object UserService {
         return repository.read(username) ?: throw EntryNotFoundException("The user with username `$username` not found")
     }
 }
+
+public suspend fun getLocale(interaction: Interaction): Language =
+    try {
+        UserService.getLocale(interaction.user.idLong)
+    } catch (_: EntryNotFoundException) {
+        val user = interaction.user
+        val entry = UserService.createUser(user.idLong, user.username)
+        entry.locale
+    }

@@ -8,7 +8,7 @@ import dev.kord.rest.builder.interaction.GlobalChatInputCreateBuilder
 import dev.kord.rest.builder.message.EmbedBuilder
 import net.kingchev.dsl.command.AbstractCommand
 import net.kingchev.localization.Language
-import net.kingchev.localization.LocaleService
+import net.kingchev.localization.createDiscordMessage
 import net.kingchev.localization.getMessage
 import net.kingchev.model.BotMetadata
 import net.kingchev.model.Colors
@@ -19,7 +19,7 @@ public class PingCommand(private val kord: Kord) : AbstractCommand({ key("ping")
     override fun build(): GlobalChatInputCreateBuilder.() -> Unit = {
         this.apply(super.build())
         description = getMessage(data.description, Language.EN_US)
-        descriptionLocalizations = LocaleService.createDiscordMessage(data.description)
+        descriptionLocalizations = createDiscordMessage(data.description)
     }
 
     override suspend fun validate(event: GuildChatInputCommandInteractionCreateEvent): Boolean = true

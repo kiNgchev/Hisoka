@@ -8,6 +8,8 @@ import dev.kord.core.entity.Guild
 import dev.kord.core.entity.Member
 import dev.kord.core.entity.User
 import dev.kord.core.entity.channel.Channel
+import dev.kord.core.event.interaction.ChatInputCommandInteractionCreateEvent
+import dev.kord.core.event.interaction.ModalSubmitInteractionCreateEvent
 import dev.kord.rest.builder.component.ActionRowBuilder
 import dev.kord.rest.builder.component.ButtonBuilder
 import dev.kord.rest.builder.interaction.RootInputChatBuilder
@@ -17,7 +19,6 @@ import net.kingchev.dsl.command.AbstractGroup
 import net.kingchev.dsl.command.AbstractSubCommand
 import net.kingchev.dsl.modal.AbstractModal
 import net.kingchev.dsl.selectmenu.AbstractSelectMenu
-import kotlin.collections.set
 import kotlin.reflect.full.primaryConstructor
 import kotlin.reflect.full.superclasses
 
@@ -60,4 +61,14 @@ public fun RootInputChatBuilder.subCommands(kord: Kord, group: AbstractGroup) {
         subCommand(data.key, data.description, subcommand.build())
         group.commands[data.key] = subcommand
     }
+}
+
+@Suppress("UNCHECKED_CAST")
+public fun <T> ChatInputCommandInteractionCreateEvent.getOption(key: String): T? {
+    return this.interaction.command.options[key]?.value as? T
+}
+
+@Suppress("UNCHECKED_CAST")
+public fun <T> ModalSubmitInteractionCreateEvent.getInput(key: String): T? {
+    return this.interaction.textInputs[key]?.value as? T
 }

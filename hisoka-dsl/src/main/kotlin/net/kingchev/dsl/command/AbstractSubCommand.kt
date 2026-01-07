@@ -3,6 +3,7 @@ package net.kingchev.dsl.command
 import dev.kord.rest.builder.interaction.SubCommandBuilder
 import net.kingchev.localization.Language
 import net.kingchev.localization.LocaleService
+import net.kingchev.localization.createDiscordMessage
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -11,7 +12,7 @@ public abstract class AbstractSubCommand(builder: CommandBuilder.() -> Unit) : I
 
     public open fun build(): SubCommandBuilder.() -> Unit = {
         description = LocaleService.getMessage(data.description, Language.EN_US.language)
-        descriptionLocalizations = LocaleService.createDiscordMessage(data.description)
+        descriptionLocalizations = createDiscordMessage(data.description)
     }
 
     protected companion object {

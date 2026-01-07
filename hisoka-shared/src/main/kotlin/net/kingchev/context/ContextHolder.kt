@@ -24,3 +24,10 @@ public object ContextHolder {
         synchronized(lock) { entries -= name }
     }
 }
+
+public inline fun <reified T> getContext(key: String): T? =
+    try {
+        ContextHolder[key]
+    } catch (_: Exception) {
+        null
+    }

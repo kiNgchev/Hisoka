@@ -1,5 +1,6 @@
 package net.kingchev.database
 
+import MigrationUtils
 import kotlinx.coroutines.Dispatchers
 import net.kingchev.structure.Initializable
 import net.kingchev.structure.delegation.property

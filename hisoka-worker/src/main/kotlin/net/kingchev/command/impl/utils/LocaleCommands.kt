@@ -9,14 +9,15 @@ import dev.kord.rest.builder.interaction.string
 import dev.kord.rest.builder.message.EmbedBuilder
 import net.kingchev.database.exception.EntryNotFoundException
 import net.kingchev.database.service.UserService
-import net.kingchev.extensions.idLong
 import net.kingchev.dsl.command.AbstractGroup
 import net.kingchev.dsl.command.AbstractSubCommand
+import net.kingchev.extensions.getOption
+import net.kingchev.extensions.idLong
 import net.kingchev.extensions.subCommands
 import net.kingchev.localization.Language
-import net.kingchev.localization.parse
-import net.kingchev.localization.LocaleService
+import net.kingchev.localization.createDiscordMessage
 import net.kingchev.localization.getMessage
+import net.kingchev.localization.parse
 import net.kingchev.model.Colors
 
 @Suppress("NAME_SHADOWING")
@@ -32,12 +33,12 @@ public class LocaleCommandGroup(private val kord: Kord) : AbstractGroup({ name("
             this.apply(super.build())
 
             string(
-                getMessage("command.locale.set.metadata.params.language.name", Language.EN_US),
-                getMessage("command.locale.set.metadata.params.language.description", Language.EN_US)
+                getMessage("command.locale.set.metadata.params.language.name"),
+                getMessage("command.locale.set.metadata.params.language.description")
             ) {
                 required = true
 
-                descriptionLocalizations = LocaleService.createDiscordMessage("command.locale.set.metadata.params.language.description")
+                descriptionLocalizations = createDiscordMessage("command.locale.set.metadata.params.language.description")
                 for (lang in Language.entries) {
                     choice(name = "${lang.nativeName} (${lang.englishName})", value = lang.code.lowercase())
                 }
@@ -48,7 +49,8 @@ public class LocaleCommandGroup(private val kord: Kord) : AbstractGroup({ name("
 
         override suspend fun execute(event: GuildChatInputCommandInteractionCreateEvent) {
             val interaction = event.interaction.deferPublicResponse()
-            val language = event.interaction.command.options[getMessage("command.locale.set.metadata.params.language.name", Language.EN_US)]?.value as String
+            val language: String = event.getOption(getMessage("command.locale.set.metadata.params.language.name"))
+                ?: return
 
             UserService.setLocale(event.interaction.user.idLong, language)
 
